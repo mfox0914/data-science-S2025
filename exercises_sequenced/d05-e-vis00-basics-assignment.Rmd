@@ -116,6 +116,7 @@ Adapt your code from q3 to visualize `price`, `carat`, and `cut` simultaneously.
 ```{r q4-task}
 ## TODO: Complete this code
 ggplot(diamonds)
+
 ```
 
 **Observations**:

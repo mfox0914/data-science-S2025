@@ -97,15 +97,14 @@ document your observations.
 
 ``` r
 ## TASK: Plot `price` vs `carat` below
-ggplot(            # Starting a ggplot
-  data = diamonds  # Dataset to visualize
-) +                # Adding elements to the plot
-  geom_point(      # Geometry
-    mapping = aes( # `Aes`thetic mapping
-      x = carat,   # Mapping the `x` variable
-      y = price    # Mapping the `y` variable
+diamonds %>%
+  ggplot(            # Starting a ggplot
+    aes(             # Aesthetic mapping
+      x = carat,     # Mapping the `x` variable
+      y = price      # Mapping the `y` variable
     )
-  )
+  ) + 
+  geom_point()      # Geometry
 ```
 
 ![](c00-diamonds-assignment_files/figure-gfm/q1-task-1.png)<!-- -->
@@ -119,23 +118,22 @@ ggplot(            # Starting a ggplot
 ``` r
 ## TASK: Plot `price`, `carat`, and `cut` below
 ## TASK: Plot `price` vs `carat` below
-ggplot(            # Starting a ggplot
-  data = diamonds  # Dataset to visualize
-) +                # Adding elements to the plot
-  geom_point(      # Geometry
-    mapping = aes( # `Aes`thetic mapping
-      x = carat,   # Mapping the `x` variable
-      y = price,   # Mapping the `y` variable
+diamonds %>%
+  ggplot(            # Starting a ggplot
+    aes(             # Aesthetic mapping
+      x = carat,     # Mapping the `x` variable
+      y = price,     # Mapping the `y` variable'
       color = cut
     )
-  )
+  ) + 
+  geom_point()      # Geometry
 ```
 
 ![](c00-diamonds-assignment_files/figure-gfm/q2-task-1.png)<!-- -->
 
 **Observations**:
 
-- The better the cut the higher the price.
+- Cut tends to increase with price.
 - Cut is good for the color because it is not a number value and only
   has a fixed set of values it can be.
 - When the carat gets large enough, cut has less of an effect on price.
