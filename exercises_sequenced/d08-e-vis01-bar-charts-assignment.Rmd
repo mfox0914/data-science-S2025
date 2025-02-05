@@ -113,8 +113,7 @@ mpg %>%
   geom_col(position = "dodge")
 ```
 
-**Observations**: - The stacked bars make it look like the values for city are between 10 and 30 when in reality the only value for city is 20.
-- When "dodge" is used, 
+**Observations**: - The stacked bars make it look like the values for city are between 10 and 30 when in reality the only value for city is 20. - When "dodge" is used, the bars are placed next to each other in increasing order.
 
 ## Stacked bar charts
 
@@ -159,7 +158,7 @@ mpg %>%
   geom_bar()
 ```
 
-**Observations**: - Write your observations here!
+**Observations**: - There are many different colors with a well-named legend. The names make it easy to understand what each color represents in the context of the dataset. However, the class axis is already named which makes the legend somewhat redundant.
 
 ```{r q4-v2}
 ## TODO: Run this code without changing, describe your observations on the data
@@ -168,12 +167,14 @@ mpg %>%
   geom_bar()
 ```
 
-**Observations**: - Write your observations here!
+**Observations**: - The legend does not really make sense. The graph is also stacked with the bars on top of each other which makes the graph harder to read. Looking at the axis and the legend it can be assumed that the graph is showing 3 different features and how many of these features each type of car has.
 
 **Compare `v1` and `v2`**:
 
 -   Which visualization---`v1` or `v2`---enabled you to make more observations?
+    -   v2 actually enabled me to make more observations although I was not entirely sure what the graph was showing. However both graphs showed the total count of a certain type of car. v1 was just easier to understand than v2.
 -   What was the difference between `v1` and `v2`?
+    -   v2 was a stacked bar graph that showed the number of cars of each class that had 3 features. The legend was hard to understand but it can be inferred it is representing whether the car is 4-wheel, front-wheel, or rear-wheel drive.
 
 ### **q4** Fix this plot
 
@@ -183,12 +184,12 @@ The following code has a bug; it does not do what its author intended. Identify 
 
 ```{r q4-task}
 mpg %>%
-  ggplot(aes(x = manufacturer, fill = class), position = "dodge") +
-  geom_bar() +
+  ggplot(aes(x = manufacturer, fill = class)) +
+  geom_bar(position = "dodge") +
   theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 0))
 ```
 
-**Observations** - Your observations here!
+**Observations** - Manufacturers tend to have 1 class of car they specialize in, while never making more than 4 car classes.
 
 ## A bit on facets
 
@@ -252,7 +253,7 @@ The following graph is hard to read. Experiment with other choices of faceting t
 mpg %>%
   ggplot(aes(x = cyl)) +
   geom_bar() +
-  facet_grid(~ manufacturer)
+  facet_grid(~ class)
 ```
 
 <!-- include-exit-ticket -->
