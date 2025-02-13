@@ -1,32 +1,41 @@
-Michelson Speed-of-light Measurements
-================
-Michaela Fox
-2025-02-06
+---
+editor_options: 
+  markdown: 
+    wrap: 72
+---
 
-- [Grading Rubric](#grading-rubric)
-  - [Individual](#individual)
-  - [Submission](#submission)
-    - [**q1** Re-create the following table (from Michelson (1880),
-      pg. 139) using `df_michelson` and `dplyr`. Note that your values
-      *will not* match those of Michelson *exactly*; why might this
-      be?](#q1-re-create-the-following-table-from-michelson-1880-pg-139-using-df_michelson-and-dplyr-note-that-your-values-will-not-match-those-of-michelson-exactly-why-might-this-be)
-    - [**q2** Create a new variable `VelocityVacuum` with the $+92$ km/s
-      adjustment to `Velocity`. Assign this new dataframe to
-      `df_q2`.](#q2-create-a-new-variable-velocityvacuum-with-the-92-kms-adjustment-to-velocity-assign-this-new-dataframe-to-df_q2)
-    - [**q3** Compare Michelson’s speed of light estimate against the
-      modern speed of light value. Is Michelson’s estimate of the error
-      (his uncertainty) greater or less than the true
-      error?](#q3-compare-michelsons-speed-of-light-estimate-against-the-modern-speed-of-light-value-is-michelsons-estimate-of-the-error-his-uncertainty-greater-or-less-than-the-true-error)
-    - [**q4** Inspect the following plot with the `Real` Michelson data
-      and `Simulated` data from a probability model. Document the
-      similarities and differences between the data under *observe*
-      below.](#q4-inspect-the-following-plot-with-the-real-michelson-data-and-simulated-data-from-a-probability-model-document-the-similarities-and-differences-between-the-data-under-observe-below)
-    - [**q5** You have access to a few other variables. Construct a **at
-      least three** visualizations of `VelocityVacuum` against these
-      other factors. Are there other patterns in the data that might
-      help explain the difference between Michelson’s estimate and
-      `LIGHTSPEED_VACUUM`?](#q5-you-have-access-to-a-few-other-variables-construct-a-at-least-three-visualizations-of-velocityvacuum-against-these-other-factors-are-there-other-patterns-in-the-data-that-might-help-explain-the-difference-between-michelsons-estimate-and-lightspeed_vacuum)
-  - [Bibliography](#bibliography)
+# Michelson Speed-of-light Measurements
+
+Michaela Fox 2025-02-06
+
+-   [Grading Rubric](#grading-rubric)
+    -   [Individual](#individual)
+    -   [Submission](#submission)
+        -   [**q1** Re-create the following table (from Michelson
+            (1880), pg. 139) using `df_michelson` and `dplyr`. Note that
+            your values *will not* match those of Michelson *exactly*;
+            why might this
+            be?](#q1-re-create-the-following-table-from-michelson-1880-pg-139-using-df_michelson-and-dplyr-note-that-your-values-will-not-match-those-of-michelson-exactly-why-might-this-be)
+        -   [**q2** Create a new variable `VelocityVacuum` with the
+            $+92$ km/s adjustment to `Velocity`. Assign this new
+            dataframe to
+            `df_q2`.](#q2-create-a-new-variable-velocityvacuum-with-the-92-kms-adjustment-to-velocity-assign-this-new-dataframe-to-df_q2)
+        -   [**q3** Compare Michelson’s speed of light estimate against
+            the modern speed of light value. Is Michelson’s estimate of
+            the error (his uncertainty) greater or less than the true
+            error?](#q3-compare-michelsons-speed-of-light-estimate-against-the-modern-speed-of-light-value-is-michelsons-estimate-of-the-error-his-uncertainty-greater-or-less-than-the-true-error)
+        -   [**q4** Inspect the following plot with the `Real` Michelson
+            data and `Simulated` data from a probability model. Document
+            the similarities and differences between the data under
+            *observe*
+            below.](#q4-inspect-the-following-plot-with-the-real-michelson-data-and-simulated-data-from-a-probability-model-document-the-similarities-and-differences-between-the-data-under-observe-below)
+        -   [**q5** You have access to a few other variables. Construct
+            a **at least three** visualizations of `VelocityVacuum`
+            against these other factors. Are there other patterns in the
+            data that might help explain the difference between
+            Michelson’s estimate and
+            `LIGHTSPEED_VACUUM`?](#q5-you-have-access-to-a-few-other-variables-construct-a-at-least-three-visualizations-of-velocityvacuum-against-these-other-factors-are-there-other-patterns-in-the-data-that-might-help-explain-the-difference-between-michelsons-estimate-and-lightspeed_vacuum)
+    -   [Bibliography](#bibliography)
 
 *Purpose*: When studying physical problems, there is an important
 distinction between *error* and *uncertainty*. The primary purpose of
@@ -39,19 +48,19 @@ Light](https://play.google.com/books/reader?id=343nAAAAMAAJ&hl=en&pg=GBS.PA115)
 
 <!-- include-rubric -->
 
-# Grading Rubric
+# Grading Rubric {#grading-rubric}
 
 <!-- -------------------------------------------------- -->
 
 Unlike exercises, **challenges will be graded**. The following rubrics
 define how you will be graded, both on an individual and team basis.
 
-## Individual
+## Individual {#individual}
 
 <!-- ------------------------- -->
 
 | Category | Needs Improvement | Satisfactory |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | Effort | Some task **q**’s left unattempted | All task **q**’s attempted |
 | Observed | Did not document observations, or observations incorrect | Documented correct observations based on analysis |
 | Supported | Some observations not clearly supported by analysis | All observations clearly supported by analysis (table, graph, etc.) |
@@ -59,7 +68,7 @@ define how you will be graded, both on an individual and team basis.
 | Specified | Uses the phrase “more data are necessary” without clarification | Any statement that “more data are necessary” specifies which *specific* data are needed to answer what *specific* question |
 | Code Styled | Violations of the [style guide](https://style.tidyverse.org/) hinder readability | Code sufficiently close to the [style guide](https://style.tidyverse.org/) |
 
-## Submission
+## Submission {#submission}
 
 <!-- ------------------------- -->
 
@@ -83,9 +92,9 @@ LIGHTSPEED_PM        <- 51         # Michelson error estimate (km / s)
 
 *Background*: In 1879 Albert Michelson led an experimental campaign to
 measure the speed of light. His approach was a development upon the
-method of Foucault\[3\], and resulted in a new estimate of
+method of Foucault$$3$$, and resulted in a new estimate of
 $v_0 = 299944 \pm 51$ kilometers per second (in a vacuum). This is very
-close to the modern *exact* value of 2.9979246^{5}. In this challenge,
+close to the modern *exact* value of 2.9979246\^{5}. In this challenge,
 you will analyze Michelson’s original data, and explore some of the
 factors associated with his experiment.
 
@@ -107,28 +116,32 @@ df_michelson <-
   mutate(Distinctness = as_factor(Distinctness))
 ```
 
-    ## ✔ Reading from "michelson1879".
+```         
+## ✔ Reading from "michelson1879".
 
-    ## ✔ Range 'Sheet1'.
+## ✔ Range 'Sheet1'.
+```
 
 ``` r
 df_michelson %>% glimpse()
 ```
 
-    ## Rows: 100
-    ## Columns: 4
-    ## $ Date         <dttm> 1879-06-05, 1879-06-07, 1879-06-07, 1879-06-07, 1879-06-…
-    ## $ Distinctness <fct> 3, 2, 2, 2, 2, 2, 3, 3, 3, 3, 2, 2, 2, 2, 2, 1, 3, 3, 2, …
-    ## $ Temp         <dbl> 76, 72, 72, 72, 72, 72, 83, 83, 83, 83, 83, 90, 90, 71, 7…
-    ## $ Velocity     <dbl> 299850, 299740, 299900, 300070, 299930, 299850, 299950, 2…
+```         
+## Rows: 100
+## Columns: 4
+## $ Date         <dttm> 1879-06-05, 1879-06-07, 1879-06-07, 1879-06-07, 1879-06-…
+## $ Distinctness <fct> 3, 2, 2, 2, 2, 2, 3, 3, 3, 3, 2, 2, 2, 2, 2, 1, 3, 3, 2, …
+## $ Temp         <dbl> 76, 72, 72, 72, 72, 72, 83, 83, 83, 83, 83, 90, 90, 71, 7…
+## $ Velocity     <dbl> 299850, 299740, 299900, 300070, 299930, 299850, 299950, 2…
+```
 
 *Data dictionary*:
 
-- `Date`: Date of measurement
-- `Distinctness`: Distinctness of measured images: 3 = good, 2 = fair, 1
-  = poor
-- `Temp`: Ambient temperature (Fahrenheit)
-- `Velocity`: Measured speed of light (km / s)
+-   `Date`: Date of measurement
+-   `Distinctness`: Distinctness of measured images: 3 = good, 2 = fair,
+    1 = poor
+-   `Temp`: Ambient temperature (Fahrenheit)
+-   `Velocity`: Measured speed of light (km / s)
 
 ### **q1** Re-create the following table (from Michelson (1880), pg. 139) using `df_michelson` and `dplyr`. Note that your values *will not* match those of Michelson *exactly*; why might this be?
 
@@ -185,20 +198,22 @@ df_q2 <- df_michelson %>%
 df_q2
 ```
 
-    ## # A tibble: 100 × 5
-    ##    Date                Distinctness  Temp Velocity VelocityVacuum
-    ##    <dttm>              <fct>        <dbl>    <dbl>          <dbl>
-    ##  1 1879-06-05 00:00:00 3               76   299850         299942
-    ##  2 1879-06-07 00:00:00 2               72   299740         299832
-    ##  3 1879-06-07 00:00:00 2               72   299900         299992
-    ##  4 1879-06-07 00:00:00 2               72   300070         300162
-    ##  5 1879-06-07 00:00:00 2               72   299930         300022
-    ##  6 1879-06-07 00:00:00 2               72   299850         299942
-    ##  7 1879-06-09 00:00:00 3               83   299950         300042
-    ##  8 1879-06-09 00:00:00 3               83   299980         300072
-    ##  9 1879-06-09 00:00:00 3               83   299980         300072
-    ## 10 1879-06-09 00:00:00 3               83   299880         299972
-    ## # ℹ 90 more rows
+```         
+## # A tibble: 100 × 5
+##    Date                Distinctness  Temp Velocity VelocityVacuum
+##    <dttm>              <fct>        <dbl>    <dbl>          <dbl>
+##  1 1879-06-05 00:00:00 3               76   299850         299942
+##  2 1879-06-07 00:00:00 2               72   299740         299832
+##  3 1879-06-07 00:00:00 2               72   299900         299992
+##  4 1879-06-07 00:00:00 2               72   300070         300162
+##  5 1879-06-07 00:00:00 2               72   299930         300022
+##  6 1879-06-07 00:00:00 2               72   299850         299942
+##  7 1879-06-09 00:00:00 3               83   299950         300042
+##  8 1879-06-09 00:00:00 3               83   299980         300072
+##  9 1879-06-09 00:00:00 3               83   299980         300072
+## 10 1879-06-09 00:00:00 3               83   299880         299972
+## # ℹ 90 more rows
+```
 
 As part of his study, Michelson assessed the various potential sources
 of error, and provided his best-guess for the error in his
@@ -209,17 +224,17 @@ Michelson believed the true value of the speed-of-light probably lay
 between `LIGHTSPEED_MICHELSON - LIGHTSPEED_PM` and
 `LIGHTSPEED_MICHELSON + LIGHTSPEED_PM`.
 
-Let’s introduce some terminology:\[2\]
+Let’s introduce some terminology:$$2$$
 
-- **Error** is the difference between a true value and an estimate of
-  that value; for instance `LIGHTSPEED_VACUUM - LIGHTSPEED_MICHELSON`.
-- **Uncertainty** is an analyst’s *assessment* of the error.
+-   **Error** is the difference between a true value and an estimate of
+    that value; for instance `LIGHTSPEED_VACUUM - LIGHTSPEED_MICHELSON`.
+-   **Uncertainty** is an analyst’s *assessment* of the error.
 
 Since a “true” value is often not known in practice, one generally does
 not know the error. The best they can do is quantify their degree of
 uncertainty. We will learn some means of quantifying uncertainty in this
 class, but for many real problems uncertainty includes some amount of
-human judgment.\[2\]
+human judgment.$$2$$
 
 ### **q3** Compare Michelson’s speed of light estimate against the modern speed of light value. Is Michelson’s estimate of the error (his uncertainty) greater or less than the true error?
 
@@ -229,13 +244,17 @@ true_value <- LIGHTSPEED_MICHELSON - LIGHTSPEED_VACUUM
 true_value
 ```
 
-    ## [1] 151.542
+```         
+## [1] 151.542
+```
 
 ``` r
 LIGHTSPEED_PM
 ```
 
-    ## [1] 51
+```         
+## [1] 51
+```
 
 ``` r
 if (LIGHTSPEED_PM > true_value) {
@@ -245,15 +264,17 @@ if (LIGHTSPEED_PM > true_value) {
 }
 ```
 
-    ## [1] "Michelson underestimated"
+```         
+## [1] "Michelson underestimated"
+```
 
 **Observations**: - Is Michelson’s estimate of the error (his
 uncertainty) greater or less than the true error? Michelson’s estimate
 of his error was less than the actual error, with his error being +- 51
 and the real error being +151.542.
 
-- Make a quantitative comparison between Michelson’s uncertainty and his
-  error.
+-   Make a quantitative comparison between Michelson’s uncertainty and
+    his error.
 
 Michelson’s uncertainty was about 3 times less than his actual error.
 This shows he was very confident in his answer but might have forgotten
@@ -330,8 +351,10 @@ df_q2 %>%
   )
 ```
 
-    ## `summarise()` has grouped output by 'Date'. You can override using the
-    ## `.groups` argument.
+```         
+## `summarise()` has grouped output by 'Date'. You can override using the
+## `.groups` argument.
+```
 
 ![](c02-michelson-assignment_files/figure-gfm/q4-cf-real-simulated-1.png)<!-- -->
 
@@ -355,68 +378,72 @@ df_q2 %>%
 
 **Observations**:
 
-- The spread of the difference is large for all distinctness values.
-  This implies that distinctness was most likely not the cause of
-  Michelson’s error.
+-   The spread of the difference is large for all distinctness values.
+    This implies that distinctness was most likely not the cause of
+    Michelson’s error.
 
-- The more distinct images actually deviate more from the true value,
-  further supporting the observation that distinctness is not the cause
-  of the error.
+-   The more distinct images actually deviate more from the true value,
+    further supporting the observation that distinctness is not the
+    cause of the error.
 
-- There is no noticeable trend in the graph.
+-   There is no noticeable trend in the graph.
 
-  ``` r
-  # Difference between velocity and true value of lightspeed v.Temperature
-  df_q2 %>%
-    ggplot(aes(x = Temp, y = VelocityVacuum - LIGHTSPEED_VACUUM)) +
-    geom_point() +
-    geom_smooth(method = lm)
-  ```
+    ``` r
+    # Difference between velocity and true value of lightspeed v.Temperature
+    df_q2 %>%
+      ggplot(aes(x = Temp, y = VelocityVacuum - LIGHTSPEED_VACUUM)) +
+      geom_point() +
+      geom_smooth(method = lm)
+    ```
 
-      ## `geom_smooth()` using formula = 'y ~ x'
+    ```         
+    ## `geom_smooth()` using formula = 'y ~ x'
+    ```
 
-  ![](c02-michelson-assignment_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
-
-**Observations**:
-
-- While there is a slight correlation between temperature and the error
-  in Michelson’s estimate, the data is also very spread out.
-
-- Temperature might have had a small influence on Michelson’s error, but
-  was probably not the main cause.
-
-- Lower temperatures tended to have a smaller error than higher
-  temperatures.
-
-  ``` r
-  # Difference between velocity and true value of lightspeed v. Date
-  df_q2 %>%
-    ggplot(aes(x = Date, y = VelocityVacuum - LIGHTSPEED_VACUUM)) +
-    geom_point() +
-    geom_smooth(method = lm)
-  ```
-
-      ## `geom_smooth()` using formula = 'y ~ x'
-
-  ![](c02-michelson-assignment_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+    ![](c02-michelson-assignment_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 **Observations**:
 
-- Michelson’s error tended to decrease as time passed.
-- Combining this knowledge with the fact that there was a slight
-  correlation between temperature and error it can be assumed that
-  Michelson’s error might have something to do with time.
-- However, like time, the data is still scattered, implying that there
-  is some other reason for his error.
+-   While there is a slight correlation between temperature and the
+    error in Michelson’s estimate, the data is also very spread out.
 
-## Bibliography
+-   Temperature might have had a small influence on Michelson’s error,
+    but was probably not the main cause.
 
-- \[1\] Michelson, [Experimental Determination of the Velocity of
-  Light](https://play.google.com/books/reader?id=343nAAAAMAAJ&hl=en&pg=GBS.PA115)
-  1880) 
-- \[2\] Henrion and Fischhoff, [Assessing Uncertainty in Physical
-  Constants](https://www.cmu.edu/epp/people/faculty/research/Fischoff-Henrion-Assessing%20uncertainty%20in%20physical%20constants.pdf)
-  1986) 
-- \[3\] BYU video about a [Fizeau-Foucault
-  apparatus](https://www.youtube.com/watch?v=Ik5ORaaeaME), similar to
-  what Michelson used.
+-   Lower temperatures tended to have a smaller error than higher
+    temperatures.
+
+    ``` r
+    # Difference between velocity and true value of lightspeed v. Date
+    df_q2 %>%
+      ggplot(aes(x = Date, y = VelocityVacuum - LIGHTSPEED_VACUUM)) +
+      geom_point() +
+      geom_smooth(method = lm)
+    ```
+
+    ```         
+    ## `geom_smooth()` using formula = 'y ~ x'
+    ```
+
+    ![](c02-michelson-assignment_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+**Observations**:
+
+-   Michelson’s error tended to decrease as time passed.
+-   Combining this knowledge with the fact that there was a slight
+    correlation between temperature and error it can be assumed that
+    Michelson’s error might have something to do with time.
+-   However, like time, the data is still scattered, implying that there
+    is some other reason for his error.
+
+## Bibliography {#bibliography}
+
+-   $$1$$ Michelson, [Experimental Determination of the Velocity of
+    Light](https://play.google.com/books/reader?id=343nAAAAMAAJ&hl=en&pg=GBS.PA115)
+    1880) 
+-   $$2$$ Henrion and Fischhoff, [Assessing Uncertainty in Physical
+    Constants](https://www.cmu.edu/epp/people/faculty/research/Fischoff-Henrion-Assessing%20uncertainty%20in%20physical%20constants.pdf)
+    1986) 
+-   $$3$$ BYU video about a [Fizeau-Foucault
+    apparatus](https://www.youtube.com/watch?v=Ik5ORaaeaME), similar to
+    what Michelson used.

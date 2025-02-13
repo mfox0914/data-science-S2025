@@ -26,7 +26,7 @@ Unlike exercises, **challenges will be graded**. The following rubrics define ho
 <!-- ------------------------- -->
 
 | Category | Needs Improvement | Satisfactory |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | Effort | Some task **q**'s left unattempted | All task **q**'s attempted |
 | Observed | Did not document observations, or observations incorrect | Documented correct observations based on analysis |
 | Supported | Some observations not clearly supported by analysis | All observations clearly supported by analysis (table, graph, etc.) |
@@ -126,7 +126,7 @@ df_prop
 ```{r q4-task}
 df_prop %>% 
   ggplot(aes(x = Survived, y = Prop, fill = Sex)) + 
-  geom_col(position = "dodge") +
+  geom_col(position = "dodge", color = "black") +
   facet_wrap(~ Class)
 ```
 
@@ -157,7 +157,7 @@ df_prop %>%
 -   The majority of women survived.
 -   There were no children part of the crew.
 -   If you saw something *fishy* in q4 above, use your new plot to explain the fishy-ness.
-    -   The plot from q4 did not distinguish between adults and children. Survival rates for children were significantly different from adults. The higher survival rate of children messed up the proportionality grouping, showing that all males and females of first and second class survived when in reality it was only all the children of those classes who survived.
+    -   The plot from q4 did not distinguish between adults and children. Survival rates for children were significantly different from adults. The q4 plot had the survival rates for children and adults overlapping. Since both bars were the same color, they were indistinguishable, causing it to look like the same amount of children and adults survived.
 
 # Notes
 

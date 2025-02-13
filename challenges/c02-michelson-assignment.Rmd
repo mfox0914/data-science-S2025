@@ -35,7 +35,7 @@ define how you will be graded, both on an individual and team basis.
 <!-- ------------------------- -->
 
 | Category | Needs Improvement | Satisfactory |
-|------------------|-----------------------------|-------------------------|
+|----|----|----|
 | Effort | Some task **q**'s left unattempted | All task **q**'s attempted |
 | Observed | Did not document observations, or observations incorrect | Documented correct observations based on analysis |
 | Supported | Some observations not clearly supported by analysis | All observations clearly supported by analysis (table, graph, etc.) |
@@ -190,8 +190,8 @@ uncertainty) greater or less than the true error? Michelson's estimate
 of his error was less than the actual error, with his error being +- 51
 and the real error being +151.542.
 
- - Make a quantitative comparison between Michelson's uncertainty and
-his error.
+-   Make a quantitative comparison between Michelson's uncertainty and
+    his error.
 
 Michelson's uncertainty was about 3 times less than his actual error.
 This shows he was very confident in his answer but might have forgotten
