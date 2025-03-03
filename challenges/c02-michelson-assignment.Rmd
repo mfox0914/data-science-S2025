@@ -128,9 +128,14 @@ here) - Why might your table differ from Michelson's? - (Your response
 here)
 
 Compared to Michelson's, the computed MeanVelocity seems to be rounded
-to the tens place, while Michelson's is rounded to a whole number. This
-suggests that Michelson's original value is the actual speed of light
-rounded to a whole number.
+to the tens place, while Michelson's is rounded to a whole number.
+However, even if the computed MeanVelocity were rounded to the nearest
+whole number, the numbers would still be different. A more accurate
+observation is to say that Michelson's is rounded to the closest whole
+number with 5 significant numbers. This suggests that Michelson may have
+applied additional rounding, such as rounding after computing the mean
+rather than rounding individual values first, or using some other method
+of handling precision.
 
 The `Velocity` values in the dataset are the speed of light *in air*;
 Michelson introduced a couple of adjustments to estimate the speed of
@@ -299,15 +304,15 @@ df_q2 %>%
     ```{r}
     # Difference between velocity and true value of lightspeed v.Temperature
     df_q2 %>%
-      ggplot(aes(x = Temp, y = VelocityVacuum - LIGHTSPEED_VACUUM)) +
+      ggplot(aes(x = Temp, y = abs(VelocityVacuum - LIGHTSPEED_VACUUM))) +
       geom_point() +
       geom_smooth(method = lm)
     ```
 
 **Observations**:
 
--   While there is a slight correlation between temperature and the
-    error in Michelson's estimate, the data is also very spread out.
+-   While there is a slight positive correlation between temperature and
+    the error in Michelson's estimate, the data is also very spread out.
 
 -   Temperature might have had a small influence on Michelson's error,
     but was probably not the main cause.
@@ -318,7 +323,7 @@ df_q2 %>%
     ```{r}
     # Difference between velocity and true value of lightspeed v. Date
     df_q2 %>%
-      ggplot(aes(x = Date, y = VelocityVacuum - LIGHTSPEED_VACUUM)) +
+      ggplot(aes(x = Date, y = abs(VelocityVacuum - LIGHTSPEED_VACUUM))) +
       geom_point() +
       geom_smooth(method = lm)
     ```
