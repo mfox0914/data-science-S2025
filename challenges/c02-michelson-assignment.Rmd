@@ -35,7 +35,7 @@ define how you will be graded, both on an individual and team basis.
 <!-- ------------------------- -->
 
 | Category | Needs Improvement | Satisfactory |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | Effort | Some task **q**'s left unattempted | All task **q**'s attempted |
 | Observed | Did not document observations, or observations incorrect | Documented correct observations based on analysis |
 | Supported | Some observations not clearly supported by analysis | All observations clearly supported by analysis (table, graph, etc.) |
@@ -285,7 +285,7 @@ tends to vary more from day to day.
 ```{r}
 # Difference between velocity and true value of lightspeed v. Distinctness
 df_q2 %>%
-  ggplot(aes(x = Distinctness, y = VelocityVacuum - LIGHTSPEED_VACUUM)) +
+  ggplot(aes(x = Distinctness, y = abs(VelocityVacuum - LIGHTSPEED_VACUUM))) +
   geom_point()
 ```
 
@@ -314,8 +314,9 @@ df_q2 %>%
 -   While there is a slight positive correlation between temperature and
     the error in Michelson's estimate, the data is also very spread out.
 
--   Temperature might have had a small influence on Michelson's error,
-    but was probably not the main cause.
+-   While the trendline could lead one to think that temperature might
+    have had a small influence on Michelson's error, this is most likely
+    coincidence due to the large, almost random spread of the data.
 
 -   Lower temperatures tended to have a smaller error than higher
     temperatures.
@@ -331,11 +332,10 @@ df_q2 %>%
 **Observations**:
 
 -   Michelson's error tended to decrease as time passed.
--   Combining this knowledge with the fact that there was a slight
-    correlation between temperature and error it can be assumed that
-    Michelson's error might have something to do with time.
--   However, like time, the data is still scattered, implying that there
-    is some other reason for his error.
+-   However, the data is still scattered, implying that this trend may
+    be coincidental.
+-   The reason for Michelson's error does not seem to be related to the
+    date.
 
 ## Bibliography
 

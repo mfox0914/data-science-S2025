@@ -24,7 +24,7 @@ Unlike exercises, **challenges will be graded**. The following rubrics define ho
 <!-- ------------------------- -->
 
 | Category | Needs Improvement | Satisfactory |
-|------------------|-----------------------------|-------------------------|
+|----|----|----|
 | Effort | Some task **q**'s left unattempted | All task **q**'s attempted |
 | Observed | Did not document observations, or observations incorrect | Documented correct observations based on analysis |
 | Supported | Some observations not clearly supported by analysis | All observations clearly supported by analysis (table, graph, etc.) |
@@ -209,6 +209,27 @@ gapminder %>%
 
 ```
 
+```{r}
+gapminder %>%
+  filter(year %in% c(year_min, year_max)) %>%
+  ggplot(aes(x = continent, y = gdpPercap, group = interaction(continent, factor(year)))) +
+  geom_boxplot(aes(color = factor(year))) +  # Boxplots colored by year
+  geom_point(
+    data = gapminder %>% 
+      filter(year %in% c(year_min, year_max), 
+             country %in% c("United States", "Kuwait", "Switzerland")),  # ✅ Correct filter
+    aes(x = continent, y = gdpPercap, color = country, shape = factor(year)),  # Differentiate by country and year
+    size = 2,
+    position = position_dodge(width = 0.75) # Properly align dots with boxplots
+  ) +
+  scale_color_manual(
+    values = c("orange", "black", "red", "green", "blue"), # Assign colors
+    labels = c(year_min, year_max, "Kuwait", "Switzerland", "United States") # Ensure proper labeling
+  ) +
+  labs(color = "Country / Year", shape = "Year")
+
+```
+
 **Observations**:
 
 -   Africa gained more outliers between 1952 and 2007.
@@ -259,12 +280,27 @@ gapminder %>%
 
 ```{r}
 # GDP vs. Time
+
+```
+
+```{r}
 gapminder %>%
-  group_by(continent, year) %>%
-  mutate(med_GDP = median(gdpPercap)) %>%
-  ggplot(aes(x = year, y = med_GDP)) +
-  geom_line(aes(color = continent), size = 0.6) +
-  scale_y_log10() 
+  filter(country == "Mexico") %>%  # ✅ Select only Mexico
+  group_by(year) %>%  # ✅ Group by year (not continent)
+  ggplot(aes(x = year, y = gdpPercap)) +
+  geom_line(size = 0.6) +
+  labs(title = "GDP per Capita in Mexico Over Time")# ✅ Line plot for Mexico
+```
+
+```{r}
+americas <- gapminder %>%
+  filter(year == 2007, continent == "Americas") %>% 
+  nrow()
+americas
+low_gdp_americas <- gapminder %>%
+  filter(year == 2007, continent == "Americas", gdpPercap < 10000)%>%
+  nrow()
+low_gdp_americas
 ```
 
 ```{r}
