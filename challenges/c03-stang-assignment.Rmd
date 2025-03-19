@@ -26,7 +26,7 @@ Unlike exercises, **challenges will be graded**. The following rubrics define ho
 <!-- ------------------------- -->
 
 | Category | Needs Improvement | Satisfactory |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | Effort | Some task **q**'s left unattempted | All task **q**'s attempted |
 | Observed | Did not document observations, or observations incorrect | Documented correct observations based on analysis |
 | Supported | Some observations not clearly supported by analysis | All observations clearly supported by analysis (table, graph, etc.) |
@@ -79,7 +79,8 @@ df_stang_long <-
     values_drop_na = TRUE
   ) %>%
   mutate(angle = as.integer(angle)) %>%
-  distinct()
+  distinct() %>%
+  filter(sign(E) != -1, sign(nu) != -1) # Remove negative numbers
   
 
 df_stang_long
@@ -122,7 +123,7 @@ df_stang_long %>%
 df_stang_long %>%
   glimpse()
 df_stang_long %>%
-lapply(unique)
+  lapply(unique)
 
 ```
 
@@ -152,16 +153,14 @@ lapply(unique)
 ```{r q3-task}
 ## TASK: Investigate your question from q1 here'
 df_stang_long %>%
-   filter(E != -1, nu != -1) %>% # Remove the -1 outlier
-  ggplot(aes(x = thick, y = E)) +
-    geom_point()
+   ggplot(aes(x = thick, y = E)) +
+   geom_point()
 ```
 
 ```{r q3}
 df_stang_long %>%
-   filter(E != -1, nu != -1) %>% # Remove the -1 outlier
-  ggplot(aes(x = thick, y = nu)) +
-    geom_point()
+   ggplot(aes(x = thick, y = nu)) +
+   geom_point() 
 ```
 
 **Observations**:
@@ -170,7 +169,6 @@ df_stang_long %>%
 -   There are 26 rows but only 12 points, suggesting that E values are repeated for the same thickness.
 -   There is noticeable variation in E for the same thickness, which could be due to the angle variation in the dataset.
 -   The trend of nu vs. thickness is similar to the trend of E vs. thickness.
--   There is a larger range of values for nu for one thickness as opposed to E.
 
 ### **q4** Consider the following statement:
 

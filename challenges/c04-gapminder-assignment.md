@@ -263,21 +263,22 @@ can.
 gapminder %>%
   filter(year == year_min) %>%
   ggplot(aes(x = continent, y = gdpPercap)) + 
-  geom_boxplot()
+  geom_boxplot() + 
+  scale_y_log10()
 ```
 
 ![](c04-gapminder-assignment_files/figure-gfm/q2-task-1.png)<!-- -->
 
 **Observations**:
 
-- Most continents have a relatively low GDP per capita with a relatively
-  small spread. The median for all countries does not pass 30000
+- The mean for all continents falls between 1000 and 10000. The median
+  for all continents does not pass 1\*10^4.
 - Oceania has both the smallest GDP per capita spread and the highest
   median, suggesting the GDP per capita of its countries is relatively
-  similar.
-- The Americas, Africa, Asia, and Europe all have noticeable outliers,
-  with Asia having a very high outlier.
-- Europe has the largest spead.
+  similar, or the number of countries located in Oceania is very small.
+- The Americas and Asia have noticeable outliers, with Asia having a
+  very high outlier.
+- Asia has the largest spead.
 - All the outliers seem to be greater than the upper bound, not lower.
 
 **Difficulties & Approaches**:
@@ -395,14 +396,36 @@ gapminder %>%
     size = 2,
     position = position_dodge(width = 0.75)  # Properly align dots with boxplots
   ) +
-  labs(color = "Country / Year", shape = "Year")
+  labs(color = "Country / Year", shape = "Year") +
+  scale_y_log10()
 ```
 
 ![](c04-gapminder-assignment_files/figure-gfm/q4-task-1.png)<!-- -->
 
+``` r
+gapminder %>%
+  filter(year %in% c(year_min, year_max)) %>%
+  ggplot(aes(x = continent, y = gdpPercap, group = interaction(continent, factor(year)))) +
+  geom_boxplot(aes(color = factor(year))) +  # Boxplots colored by year
+  geom_point(
+    data = gapminder %>% 
+      filter(year %in% c(year_min, year_max), 
+             country %in% c("United States", "Kuwait", "Switzerland")),  # ✅ Correct filter
+    aes(x = continent, y = gdpPercap, color = country, shape = factor(year)),  # Differentiate by country and year
+    size = 2,
+    position = position_dodge(width = 0.75) # Properly align dots with boxplots
+  ) +
+  scale_color_manual(
+    values = c("orange", "black", "red", "green", "blue"), # Assign colors
+    labels = c(year_min, year_max, "Kuwait", "Switzerland", "United States") # Ensure proper labeling
+  ) +
+  labs(color = "Country / Year", shape = "Year")
+```
+
+![](c04-gapminder-assignment_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
 **Observations**:
 
-- Africa gained more outliers between 1952 and 2007.
 - The median and range tended to increase between 1952 and 2007 - does
   this dataset take inflation into account?
 - Kuwait’s GDP decreased significantly between 1952 and 2007, it is the
@@ -470,16 +493,33 @@ gapminder %>%
 ![](c04-gapminder-assignment_files/figure-gfm/q5-task3-1.png)<!-- -->
 
 ``` r
-# GDP vs. Time
 gapminder %>%
-  group_by(continent, year) %>%
-  mutate(med_GDP = median(gdpPercap)) %>%
-  ggplot(aes(x = year, y = med_GDP)) +
-  geom_line(aes(color = continent), size = 0.6) +
-  scale_y_log10() 
+  filter(country == "Mexico") %>%  # ✅ Select only Mexico
+  group_by(year) %>%  # ✅ Group by year (not continent)
+  ggplot(aes(x = year, y = gdpPercap)) +
+  geom_line(size = 0.6) +
+  labs(title = "GDP per Capita in Mexico Over Time")# ✅ Line plot for Mexico
 ```
 
-![](c04-gapminder-assignment_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](c04-gapminder-assignment_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+
+``` r
+americas <- gapminder %>%
+  filter(year == 2007, continent == "Americas") %>% 
+  nrow()
+americas
+```
+
+    ## [1] 25
+
+``` r
+low_gdp_americas <- gapminder %>%
+  filter(year == 2007, continent == "Americas", gdpPercap < 10000)%>%
+  nrow()
+low_gdp_americas
+```
+
+    ## [1] 16
 
 ``` r
 gapminder %>%

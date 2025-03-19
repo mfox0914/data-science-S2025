@@ -24,7 +24,7 @@ Unlike exercises, **challenges will be graded**. The following rubrics define ho
 <!-- ------------------------- -->
 
 | Category | Needs Improvement | Satisfactory |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | Effort | Some task **q**'s left unattempted | All task **q**'s attempted |
 | Observed | Did not document observations, or observations incorrect | Documented correct observations based on analysis |
 | Supported | Some observations not clearly supported by analysis | All observations clearly supported by analysis (table, graph, etc.) |
@@ -114,15 +114,16 @@ You may encounter difficulties in visualizing these data; if so document your ch
 gapminder %>%
   filter(year == year_min) %>%
   ggplot(aes(x = continent, y = gdpPercap)) + 
-  geom_boxplot()
+  geom_boxplot() + 
+  scale_y_log10()
 ```
 
 **Observations**:
 
--   Most continents have a relatively low GDP per capita with a relatively small spread. The median for all countries does not pass 30000
--   Oceania has both the smallest GDP per capita spread and the highest median, suggesting the GDP per capita of its countries is relatively similar.
--   The Americas, Africa, Asia, and Europe all have noticeable outliers, with Asia having a very high outlier.
--   Europe has the largest spead.
+-   The mean for all continents falls between 1000 and 10000. The median for all continents does not pass 1\*10\^4.
+-   Oceania has both the smallest GDP per capita spread and the highest median, suggesting the GDP per capita of its countries is relatively similar, or the number of countries located in Oceania is very small.
+-   The Americas and Asia have noticeable outliers, with Asia having a very high outlier.
+-   Asia has the largest spead.
 -   All the outliers seem to be greater than the upper bound, not lower.
 
 **Difficulties & Approaches**:
@@ -205,7 +206,8 @@ gapminder %>%
     size = 2,
     position = position_dodge(width = 0.75)  # Properly align dots with boxplots
   ) +
-  labs(color = "Country / Year", shape = "Year")
+  labs(color = "Country / Year", shape = "Year") +
+  scale_y_log10()
 
 ```
 
@@ -232,7 +234,6 @@ gapminder %>%
 
 **Observations**:
 
--   Africa gained more outliers between 1952 and 2007.
 -   The median and range tended to increase between 1952 and 2007 - does this dataset take inflation into account?
 -   Kuwait's GDP decreased significantly between 1952 and 2007, it is the only 1952 outlier country to show this behavior.
 
@@ -276,11 +277,6 @@ gapminder %>%
   mutate(med_lifeExp = median(lifeExp), med_pop = median(pop)) %>%
   ggplot(aes(x = med_pop, y = med_lifeExp)) +
   geom_line(aes(color = continent), size = 0.6)
-```
-
-```{r}
-# GDP vs. Time
-
 ```
 
 ```{r}
