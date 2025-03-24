@@ -159,7 +159,7 @@ df_stang_long <-
     values_drop_na = TRUE
   ) %>%
   mutate(angle = as.integer(angle)) %>%
-  distinct()
+  filter(sign(E) != -1, sign(nu) != -1) # Remove negative numbers
   
 
 df_stang_long
@@ -257,7 +257,7 @@ df_stang_long %>%
 
 ``` r
 df_stang_long %>%
-lapply(unique)
+  lapply(unique)
 ```
 
     ## $thick
@@ -270,11 +270,11 @@ lapply(unique)
     ## [1]  0 45 90
     ## 
     ## $E
-    ## [1] 10600 10700 10500 10400 10300 10000  9900 10100    -1
+    ## [1] 10600 10700 10500 10400 10300 10000  9900 10100
     ## 
     ## $nu
-    ##  [1]  0.321  0.329  0.310  0.323  0.331  0.318  0.322  0.319  0.326  0.330
-    ## [11]  0.327  0.328  0.320  0.315  0.314  0.312  0.316  0.311 -1.000
+    ##  [1] 0.321 0.329 0.310 0.323 0.331 0.318 0.322 0.319 0.326 0.330 0.327 0.328
+    ## [13] 0.320 0.315 0.314 0.312 0.316 0.311
 
 **Observations**:
 
@@ -308,18 +308,16 @@ lapply(unique)
 ``` r
 ## TASK: Investigate your question from q1 here'
 df_stang_long %>%
-   filter(E != -1, nu != -1) %>% # Remove the -1 outlier
-  ggplot(aes(x = thick, y = E)) +
-    geom_point()
+   ggplot(aes(x = thick, y = E)) +
+   geom_point()
 ```
 
 ![](c03-stang-assignment_files/figure-gfm/q3-task-1.png)<!-- -->
 
 ``` r
 df_stang_long %>%
-   filter(E != -1, nu != -1) %>% # Remove the -1 outlier
-  ggplot(aes(x = thick, y = nu)) +
-    geom_point()
+   ggplot(aes(x = thick, y = nu)) +
+   geom_point() 
 ```
 
 ![](c03-stang-assignment_files/figure-gfm/q3-1.png)<!-- -->
@@ -333,8 +331,6 @@ df_stang_long %>%
   be due to the angle variation in the dataset.
 - The trend of nu vs. thickness is similar to the trend of E
   vs. thickness.
-- There is a larger range of values for nu for one thickness as opposed
-  to E.
 
 ### **q4** Consider the following statement:
 

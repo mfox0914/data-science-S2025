@@ -79,7 +79,6 @@ df_stang_long <-
     values_drop_na = TRUE
   ) %>%
   mutate(angle = as.integer(angle)) %>%
-  distinct() %>%
   filter(sign(E) != -1, sign(nu) != -1) # Remove negative numbers
   
 
