@@ -418,27 +418,11 @@ df_normalized %>%
 -   Your own idea!
 
 ```{r}
-# Categorizing counties by population size
-df_normalized <- df_normalized %>%
-  mutate(population_group = case_when(
-    population < 1000 ~ "Tiny (<1K)",
-    population < 10000 ~ "Small (1K-10K)",
-    population < 100000 ~ "Medium (10K-100K)",
-    TRUE ~ "Large (100K+)"
-  ))
-
-# Box plot to compare case rates by population group
-ggplot(df_normalized, aes(x = population_group, y = cases_per100k, fill = population_group)) +
-  geom_boxplot() +  
-  labs(
-    title = "COVID-19 Case Rates by County Population Size")
+ggplot(df_normalized, aes(x = `population`, y = cases_per100k)) +
+  geom_point(alpha = 0.5, color = "blue") +
+  geom_smooth(method = "lm", color = "red", se = FALSE) +
+  scale_x_log10()
 ```
-
-**Observations:**
-
--   Tiny and small counties have many outliers. This happens because even a few cases can make the numbers look very high, leading to cases_per100k changing vastly.
-
--   There does not seem to be any pattern between spread and population, the only thing that seems to change is the number of outliers.
 
 ### Aside: Some visualization tricks
 
@@ -458,7 +442,7 @@ df_normalized %>%
     aes(date, cases_per100k, color = fct_reorder2(county, date, cases_per100k))
   ) +
   geom_line() +
-  #scale_y_log10(labels = scales::cut_si()) +
+  scale_y_log10(labels = scales::label_number_si()) +
   scale_color_discrete(name = "County") +
   theme_minimal() +
   labs(
