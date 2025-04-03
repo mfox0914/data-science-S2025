@@ -1,12 +1,7 @@
----
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
-# Antibiotics
-
-Michaela Fox 2025-03-04
+Antibiotics
+================
+Michaela Fox
+2025-03-04
 
 *Purpose*: Creating effective data visualizations is an *iterative*
 process; very rarely will the first graph you make be the most
@@ -62,24 +57,22 @@ all files uploaded to GitHub.**
 library(tidyverse)
 ```
 
-```         
-## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-## ✔ purrr     1.0.2     
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
-```
+    ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+    ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+    ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+    ## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+    ## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+    ## ✔ purrr     1.0.2     
+    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ✖ dplyr::filter() masks stats::filter()
+    ## ✖ dplyr::lag()    masks stats::lag()
+    ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 
 ``` r
 library(ggrepel)
 ```
 
-*Background*: The data$$1$$ we study in this challenge report the
+*Background*: The data\[1\] we study in this challenge report the
 [*minimum inhibitory
 concentration*](https://en.wikipedia.org/wiki/Minimum_inhibitory_concentration)
 (MIC) of three drugs for different bacteria. The smaller the MIC for a
@@ -101,16 +94,14 @@ filename <- "./data/antibiotics.csv"
 df_antibiotics <- read_csv(filename)
 ```
 
-```         
-## Rows: 16 Columns: 5
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr (2): bacteria, gram
-## dbl (3): penicillin, streptomycin, neomycin
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-```
+    ## Rows: 16 Columns: 5
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (2): bacteria, gram
+    ## dbl (3): penicillin, streptomycin, neomycin
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
 ``` r
 df_antibiotics %>% knitr::kable()
@@ -139,15 +130,13 @@ df_antibiotics %>% knitr::kable()
 glimpse(df_antibiotics)
 ```
 
-```         
-## Rows: 16
-## Columns: 5
-## $ bacteria     <chr> "Aerobacter aerogenes", "Brucella abortus", "Bacillus ant…
-## $ penicillin   <dbl> 870.000, 1.000, 0.001, 0.005, 100.000, 850.000, 800.000, …
-## $ streptomycin <dbl> 1.00, 2.00, 0.01, 11.00, 0.40, 1.20, 5.00, 0.10, 2.00, 0.…
-## $ neomycin     <dbl> 1.600, 0.020, 0.007, 10.000, 0.100, 1.000, 2.000, 0.100, …
-## $ gram         <chr> "negative", "negative", "positive", "positive", "negative…
-```
+    ## Rows: 16
+    ## Columns: 5
+    ## $ bacteria     <chr> "Aerobacter aerogenes", "Brucella abortus", "Bacillus ant…
+    ## $ penicillin   <dbl> 870.000, 1.000, 0.001, 0.005, 100.000, 850.000, 800.000, …
+    ## $ streptomycin <dbl> 1.00, 2.00, 0.01, 11.00, 0.40, 1.20, 5.00, 0.10, 2.00, 0.…
+    ## $ neomycin     <dbl> 1.600, 0.020, 0.007, 10.000, 0.100, 1.000, 2.000, 0.100, …
+    ## $ gram         <chr> "negative", "negative", "positive", "positive", "negative…
 
 # Visualization
 
@@ -175,42 +164,38 @@ construct.
 glimpse(df_antibiotics)
 ```
 
-```         
-## Rows: 16
-## Columns: 5
-## $ bacteria     <chr> "Aerobacter aerogenes", "Brucella abortus", "Bacillus ant…
-## $ penicillin   <dbl> 870.000, 1.000, 0.001, 0.005, 100.000, 850.000, 800.000, …
-## $ streptomycin <dbl> 1.00, 2.00, 0.01, 11.00, 0.40, 1.20, 5.00, 0.10, 2.00, 0.…
-## $ neomycin     <dbl> 1.600, 0.020, 0.007, 10.000, 0.100, 1.000, 2.000, 0.100, …
-## $ gram         <chr> "negative", "negative", "positive", "positive", "negative…
-```
+    ## Rows: 16
+    ## Columns: 5
+    ## $ bacteria     <chr> "Aerobacter aerogenes", "Brucella abortus", "Bacillus ant…
+    ## $ penicillin   <dbl> 870.000, 1.000, 0.001, 0.005, 100.000, 850.000, 800.000, …
+    ## $ streptomycin <dbl> 1.00, 2.00, 0.01, 11.00, 0.40, 1.20, 5.00, 0.10, 2.00, 0.…
+    ## $ neomycin     <dbl> 1.600, 0.020, 0.007, 10.000, 0.100, 1.000, 2.000, 0.100, …
+    ## $ gram         <chr> "negative", "negative", "positive", "positive", "negative…
 
 ``` r
 df_antibiotics%>%
 head(16)
 ```
 
-```         
-## # A tibble: 16 × 5
-##    bacteria                        penicillin streptomycin neomycin gram    
-##    <chr>                                <dbl>        <dbl>    <dbl> <chr>   
-##  1 Aerobacter aerogenes               870             1       1.6   negative
-##  2 Brucella abortus                     1             2       0.02  negative
-##  3 Bacillus anthracis                   0.001         0.01    0.007 positive
-##  4 Diplococcus pneumonia                0.005        11      10     positive
-##  5 Escherichia coli                   100             0.4     0.1   negative
-##  6 Klebsiella pneumoniae              850             1.2     1     negative
-##  7 Mycobacterium tuberculosis         800             5       2     negative
-##  8 Proteus vulgaris                     3             0.1     0.1   negative
-##  9 Pseudomonas aeruginosa             850             2       0.4   negative
-## 10 Salmonella (Eberthella) typhosa      1             0.4     0.008 negative
-## 11 Salmonella schottmuelleri           10             0.8     0.09  negative
-## 12 Staphylococcus albus                 0.007         0.1     0.001 positive
-## 13 Staphylococcus aureus                0.03          0.03    0.001 positive
-## 14 Streptococcus fecalis                1             1       0.1   positive
-## 15 Streptococcus hemolyticus            0.001        14      10     positive
-## 16 Streptococcus viridans               0.005        10      40     positive
-```
+    ## # A tibble: 16 × 5
+    ##    bacteria                        penicillin streptomycin neomycin gram    
+    ##    <chr>                                <dbl>        <dbl>    <dbl> <chr>   
+    ##  1 Aerobacter aerogenes               870             1       1.6   negative
+    ##  2 Brucella abortus                     1             2       0.02  negative
+    ##  3 Bacillus anthracis                   0.001         0.01    0.007 positive
+    ##  4 Diplococcus pneumonia                0.005        11      10     positive
+    ##  5 Escherichia coli                   100             0.4     0.1   negative
+    ##  6 Klebsiella pneumoniae              850             1.2     1     negative
+    ##  7 Mycobacterium tuberculosis         800             5       2     negative
+    ##  8 Proteus vulgaris                     3             0.1     0.1   negative
+    ##  9 Pseudomonas aeruginosa             850             2       0.4   negative
+    ## 10 Salmonella (Eberthella) typhosa      1             0.4     0.008 negative
+    ## 11 Salmonella schottmuelleri           10             0.8     0.09  negative
+    ## 12 Staphylococcus albus                 0.007         0.1     0.001 positive
+    ## 13 Staphylococcus aureus                0.03          0.03    0.001 positive
+    ## 14 Streptococcus fecalis                1             1       0.1   positive
+    ## 15 Streptococcus hemolyticus            0.001        14      10     positive
+    ## 16 Streptococcus viridans               0.005        10      40     positive
 
 #### Visual 1 (All variables)
 
@@ -221,11 +206,12 @@ is Gram positive or negative.
 
 ``` r
 df_antibiotics %>%
-  pivot_longer(cols = -c(bacteria, gram), names_to = "drug", values_to = "value") %>%
-  ggplot(aes(x = bacteria, y = value, fill = gram)) +
-  geom_col() +
-  facet_wrap(~drug) +
-   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  pivot_longer(cols = -c(bacteria, gram), names_to = "drug", values_to = "value")%>%
+  mutate(bacteria = fct_reorder(bacteria, value)) %>% #Reorder bacteria by MIC
+  ggplot(aes(x = bacteria, y = value, fill = drug)) +
+  geom_col(position = "dodge") +
+  facet_wrap(~gram, scales = "free_x") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   scale_y_log10()
 ```
 
@@ -244,12 +230,12 @@ your other visuals.
 ``` r
 df_antibiotics %>%
   pivot_longer(cols = -c(bacteria, gram), names_to = "drug", values_to = "value") %>%
-  mutate(effectiveness = value <= 0.1) %>%  # Define effectiveness
-  ggplot(aes(x = bacteria, y = drug, color = effectiveness, shape = gram)) +
+  mutate(bacteria = fct_reorder(bacteria, value)) %>% #Reorder bacteria by MIC
+  ggplot(aes(x = bacteria, y = drug, color = log10(value), shape = gram)) +
   geom_point(size = 4) +  
-  scale_color_manual(values = c("red", "blue"), labels = c("Not Effective", "Effective")) +
+  scale_color_gradient(low = "blue", high = "red", name = "MIC Value") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  labs(x = "Bacteria", y = "Drug", color = "Effectiveness", shape = "Gram Stain")
+  labs(x = "Bacteria", y = "Drug", color = "MIC", shape = "Gram Stain")
 ```
 
 ![](c05-antibiotics-assignment_files/figure-gfm/q1.2-1.png)<!-- -->
@@ -266,8 +252,10 @@ your other visuals.
 ``` r
 df_antibiotics %>% 
   pivot_longer(cols = penicillin, names_to = "antibiotic", values_to = "MIC") %>%
-  ggplot(aes(x = gram, y = bacteria, fill = log10(MIC))) +
+  mutate(bacteria = fct_reorder(bacteria, MIC)) %>% #Reorder bacteria by MIC
+  ggplot(aes(x = antibiotic, y = bacteria, fill = log10(MIC))) +
   geom_tile() +
+  facet_grid(gram~., scales = "free_y") +
   scale_fill_gradient(low = "blue", high = "red") +
    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   labs(title = "Heatmap of Log-Scaled Penicillin MIC by Bacteria and Gram Stain")
@@ -288,6 +276,7 @@ your other visuals.
 df_antibiotics %>%
   pivot_longer(cols = c(penicillin, streptomycin, neomycin), 
                names_to = "antibiotic", values_to = "MIC") %>%
+  mutate(bacteria = fct_reorder(bacteria, MIC)) %>% #Reorder bacteria by MIC
 ggplot(aes(x = antibiotic, y = MIC, fill = antibiotic)) +
   geom_boxplot() +
   scale_y_log10() 
@@ -307,6 +296,7 @@ your other visuals.
 ``` r
 df_antibiotics %>% 
   pivot_longer(cols = streptomycin, names_to = "antibiotic", values_to = "MIC") %>%
+  mutate(bacteria = fct_reorder(bacteria, MIC)) %>% #Reorder bacteria by MIC
   ggplot(aes(x = bacteria, y = MIC, color = gram)) +
   geom_point(position = position_dodge(width = 0.5)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
@@ -336,15 +326,14 @@ opportunity to think about why this is.**
 
 *Observations* - What is your response to the question above? -
 
--   Penicillin tends to be less effective on negative gram stains and is
-    most effective on the genera Bacillus, Diplococcus, and
-    Staphylococcus.
--   Neomycin tends to be equally effective on both gram stains and is
-    most effective on the genera Brucella, Bacillus, Escherichia,
-    Proteus, Salmonella, and Staphylococcus.
--   Streptomycin tends to be less effective on negative gram stains and
-    is most effective on the genera Bacillus, Proteus, and
-    Staphylococcus.
+- Penicillin tends to be less effective on negative gram stains and is
+  most effective on the genera Bacillus, Diplococcus, and
+  Staphylococcus.
+- Neomycin tends to be equally effective on both gram stains and is most
+  effective on the genera Brucella, Bacillus, Escherichia, Proteus,
+  Salmonella, and Staphylococcus.
+- Streptomycin tends to be less effective on negative gram stains and is
+  most effective on the genera Bacillus, Proteus, and Staphylococcus.
 
 \- Which of your visuals above (1 through 5) is **most effective** at
 helping to answer this question?
@@ -361,7 +350,7 @@ to be easily compared.
 
 In 1974 *Diplococcus pneumoniae* was renamed *Streptococcus pneumoniae*,
 and in 1984 *Streptococcus fecalis* was renamed *Enterococcus fecalis*
-$$2$$.
+\[2\].
 
 > Why was *Diplococcus pneumoniae* was renamed *Streptococcus
 > pneumoniae*?
@@ -372,23 +361,23 @@ $$2$$.
 Streptococcus viridans, it is a bacteria of a positive gram stain that
 is only weak to Penicillin.
 
--   Which of your visuals above (1 through 5) is **most effective** at
-    helping to answer this question?
+- Which of your visuals above (1 through 5) is **most effective** at
+  helping to answer this question?
 
-    \- My second visual
+  \- My second visual
 
--   Why?
+- Why?
 
-    \- Seeing the different bacteria effectiveness values next to each
-    other allows for easy comparison, making similarities in bacteria
-    more evident.
+  \- Seeing the different bacteria effectiveness values next to each
+  other allows for easy comparison, making similarities in bacteria more
+  evident.
 
 # References
 
 <!-- -------------------------------------------------- -->
 
-$$1$$ Neomycin in skin infections: A new topical antibiotic with wide
+\[1\] Neomycin in skin infections: A new topical antibiotic with wide
 antibacterial range and rarely sensitizing. Scope. 1951;3(5):4-7.
 
-$$2$$ Wainer and Lysen, “That’s Funny…” *American Scientist* (2009)
+\[2\] Wainer and Lysen, “That’s Funny…” *American Scientist* (2009)
 [link](https://www.americanscientist.org/article/thats-funny)

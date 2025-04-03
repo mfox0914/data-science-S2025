@@ -173,8 +173,9 @@ your other visuals.
 df_antibiotics %>% 
   pivot_longer(cols = penicillin, names_to = "antibiotic", values_to = "MIC") %>%
   mutate(bacteria = fct_reorder(bacteria, MIC)) %>% #Reorder bacteria by MIC
-  ggplot(aes(x = gram, y = bacteria, fill = log10(MIC))) +
+  ggplot(aes(x = antibiotic, y = bacteria, fill = log10(MIC))) +
   geom_tile() +
+  facet_grid(gram~., scales = "free_y") +
   scale_fill_gradient(low = "blue", high = "red") +
    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   labs(title = "Heatmap of Log-Scaled Penicillin MIC by Bacteria and Gram Stain")
@@ -212,7 +213,7 @@ your other visuals.
 ```{r q1.5}
 df_antibiotics %>% 
   pivot_longer(cols = streptomycin, names_to = "antibiotic", values_to = "MIC") %>%
-  mutate(bacteria = fct_reorder(bacteria, value)) %>% #Reorder bacteria by MIC
+  mutate(bacteria = fct_reorder(bacteria, MIC)) %>% #Reorder bacteria by MIC
   ggplot(aes(x = bacteria, y = MIC, color = gram)) +
   geom_point(position = position_dodge(width = 0.5)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
