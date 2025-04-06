@@ -28,7 +28,7 @@ Unlike exercises, **challenges will be graded**. The following rubrics define ho
 <!-- ------------------------- -->
 
 | Category | Needs Improvement | Satisfactory |
-|------------------|-----------------------------|-------------------------|
+|----|----|----|
 | Effort | Some task **q**'s left unattempted | All task **q**'s attempted |
 | Observed | Did not document observations, or observations incorrect | Documented correct observations based on analysis |
 | Supported | Some observations not clearly supported by analysis | All observations clearly supported by analysis (table, graph, etc.) |
@@ -431,3 +431,72 @@ The Islands allows you to ask islanders to complete tasks. If you just take meas
 -   (How will you choose your sample size?)
     -   This should be a mix of how confident you want to be in your results, and what is actually *feasible* for your research team.
         -   25 students for each of the chosen majors in the chosen University.
+
+```{r}
+# Load necessary libraries
+library(tidyverse)
+
+# Extract last names from full names
+df_sample_seq <- df_sample_seq %>%
+  mutate(last_name = word(name, -1))  # Extract last word (last name)
+
+df_sample_random <- df_sample_random %>%
+  mutate(last_name = word(name, -1))  # Extract last word (last name)
+
+# Count occurrences of last names
+last_name_counts_seq <- df_sample_seq %>%
+  count(last_name) %>%
+  mutate(sample_type = "Sequential")
+
+last_name_counts_random <- df_sample_random %>%
+  count(last_name) %>%
+  mutate(sample_type = "Random")
+
+# Combine datasets
+last_name_counts <- bind_rows(last_name_counts_seq, last_name_counts_random)
+
+# Normalize counts to get proportions
+last_name_counts <- last_name_counts %>%
+  group_by(sample_type) %>%
+  mutate(p = n / sum(n))
+
+# Find the top 10 most common last names across both samples
+top_10_names <- last_name_counts %>%
+  group_by(last_name) %>%
+  summarise(total_n = sum(n)) %>%
+  arrange(desc(total_n)) %>%
+  top_n(10, total_n) %>%
+  pull(last_name)
+
+# Filter dataset for only the top 10 names
+last_name_counts_top10 <- last_name_counts %>%
+  filter(last_name %in% top_10_names)
+
+# 1. Bar Chart: Comparing Last Name Prevalence (Top 10 Only)
+ggplot(last_name_counts_top10, aes(x = reorder(last_name, -p), y = p, fill = sample_type)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_wrap(~sample_type) +
+  labs(title = "Top 10 Last Names: Sequential vs. Random Sampling",
+       x = "Last Name", y = "Proportion of Sample",
+       fill = "Sampling Method") +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1))
+
+# 2. Stacked Bar Chart for Last Name Distributions (Top 10 Only)
+ggplot(last_name_counts_top10, aes(x = last_name, y = n, fill = sample_type)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Top 10 Last Names: Sequential vs. Random Sampling",
+       x = "Last Name", y = "Count",
+       fill = "Sampling Method") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# 3. Boxplot Comparing Age Distributions
+ggplot(bind_rows(df_sample_seq %>% mutate(sample_type = "Sequential"),
+                 df_sample_random %>% mutate(sample_type = "Random")),
+       aes(x = sample_type, y = age, fill = sample_type)) +
+  geom_boxplot() +
+  labs(title = "Age Distribution: Sequential vs. Random Sampling",
+       x = "Sampling Method", y = "Age",
+       fill = "Sampling Method") +
+  theme_minimal()
+
+```

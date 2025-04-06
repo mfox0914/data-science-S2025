@@ -88,7 +88,9 @@ That's the high-level view; now let's dig into the details.
 
 ```{r q1-task}
 ## TASK: Load the census bureau data with the following tibble name.
-df_pop <- read_csv("C:/Users/mfox/OneDrive - Olin College of Engineering/Data Science/data-science-S2025/challenges/data/ACSDT5Y2018.B01003-Data.csv", skip = 1) %>% 
+df_pop <- read_csv(
+  "C:/Users/mfox/OneDrive - Olin College of Engineering/Data Science/data-science-S2025/challenges/data/ACSDT5Y2018.B01003-Data.csv", 
+  skip = 1) %>% 
   rename(id = Geography) %>%
   select(-last_col())
 ```
