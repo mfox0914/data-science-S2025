@@ -1,7 +1,7 @@
 ---
 title: "The Islands, Part 2: Study"
-author: "(Your name here)"
-date: 202X-XX-XX
+author: "Michaela Fox"
+date: 2025-04-12
 output:
   github_document:
     toc: true
@@ -16,17 +16,20 @@ This challenge is deliberately shorter so you have time to collect and analyze y
 *Important note*: While we expect that you did your data collection with your team, you need to complete your own individual report for c10.
 
 <!-- include-rubric -->
+
 # Grading Rubric
+
 <!-- -------------------------------------------------- -->
 
 Unlike exercises, **challenges will be graded**. The following rubrics define how you will be graded, both on an individual and team basis.
 
 ## Individual
+
 <!-- ------------------------- -->
 
 | Category | Needs Improvement | Satisfactory |
-|----------|----------------|--------------|
-| Effort | Some task __q__'s left unattempted | All task __q__'s attempted |
+|----|----|----|
+| Effort | Some task **q**'s left unattempted | All task **q**'s attempted |
 | Observed | Did not document observations, or observations incorrect | Documented correct observations based on analysis |
 | Supported | Some observations not clearly supported by analysis | All observations clearly supported by analysis (table, graph, etc.) |
 | Assessed | Observations include claims not supported by the data, or reflect a level of certainty not warranted by the data | Observations are appropriately qualified by the quality & relevance of the data and (in)conclusiveness of the support |
@@ -34,69 +37,225 @@ Unlike exercises, **challenges will be graded**. The following rubrics define ho
 | Code Styled | Violations of the [style guide](https://style.tidyverse.org/) hinder readability | Code sufficiently close to the [style guide](https://style.tidyverse.org/) |
 
 ## Submission
+
 <!-- ------------------------- -->
 
 Make sure to commit both the challenge report (`report.md` file) and supporting files (`report_files/` folder) when you are done! Then submit a link to Canvas. **Your Challenge submission is not complete without all files uploaded to GitHub.**
 
-
 # Setup
+
 <!-- ----------------------------------------------------------------------- -->
 
 ```{r setup}
 library(tidyverse)
 library(rsample)
+library(dplyr)
 
 # TODO: Include any other packages you need
 ```
 
-### __q1__ Planning a study (TEAMWORK)
+### **q1** Planning a study (TEAMWORK)
 
 While you provided this plan in c08 (Part 1), please include your plan here. In particular, describe how you updated your plan in response to feedback.
 
 #### Population
 
-- (What population are you going to study?)
-  - All of the Islanders? Only the residents of Helvig? Participants meeting certain criteria (in which case, you need to list *covariates*)?
+-   (What population are you going to study?)
+    -   All of the Islanders? Only the residents of Helvig? Participants meeting certain criteria (in which case, you need to list *covariates*)?
 
 #### Quantity of interest
 
-- (Write your quantity of interest here)
+-   (Write your quantity of interest here)
 
 #### Covariates
 
-- (Write any relevant covariates here)
-- (There's probably more than one!)
+-   (Write any relevant covariates here)
+-   (There's probably more than one!)
 
 #### Observation or experiment?
 
 The Islands allows you to ask islanders to complete tasks. If you just take measurements on your participants, then it's an *observational study*. But if you also introduce something that's meant to change the outcome of a measurement (e.g., drinking coffee before taking a test), that's called an *experimental study*. You need to decide whether your study is observational or experimental.
 
-- (Observation or experiment?)
+-   (Observation or experiment?)
 
 #### Question / Hypothesis
 
-- (Write your question / hypothesis here)
-  - This could be an observational question, like "How are X and Y related in the population?"
-  - This could be an experimental question, like "What effect does X have on Y in the population?"
+-   (Write your question / hypothesis here)
+    -   This could be an observational question, like "How are X and Y related in the population?"
+    -   This could be an experimental question, like "What effect does X have on Y in the population?"
 
 #### Sampling plan
 
-- (What steps will you take to collect the data?)
-  - Be specific. For instance, if you're going to collect a random sample, how will you enumerate all of the things to be sampled?
-  - Write a protocol. Document step-by-step instructions that your team will follow. That way, you can feasibly split up data collection among the whole team, while making sure each team member doesn't make ad hoc decisions that introduce bias into your results.
-- (How will you ensure the data is representative of your chosen population?)
-- (For experiments only: How will you ensure any effects you observe are due to the treatment, and not due to other factors?)
-- (How will you choose your sample size?)
-  - This should be a mix of how confident you want to be in your results, and what is actually *feasible* for your research team.
+-   (What steps will you take to collect the data?)
+    -   Be specific. For instance, if you're going to collect a random sample, how will you enumerate all of the things to be sampled?
+    -   Write a protocol. Document step-by-step instructions that your team will follow. That way, you can feasibly split up data collection among the whole team, while making sure each team member doesn't make ad hoc decisions that introduce bias into your results.
+-   (How will you ensure the data is representative of your chosen population?)
+-   (For experiments only: How will you ensure any effects you observe are due to the treatment, and not due to other factors?)
+-   (How will you choose your sample size?)
+    -   This should be a mix of how confident you want to be in your results, and what is actually *feasible* for your research team.
 
-### __q2__ EDA
+### **q2** EDA
 
 Conduct an EDA on your data. Add as many code chunks as you need. Ensure your EDA gives enough context of the data for us to understand what comes next in this report.
 
-### __q3__ Key Analyses
+```{r}
+df <- read_csv(
+  "C:/Users/mfox/OneDrive - Olin College of Engineering/Data Science/data-science-S2025/challenges/data/majorsvalcohol.csv", 
+  skip = 1) %>%
+  glimpse()
+
+```
+
+```{r}
+# Remove Notes column
+df <- df %>% 
+  select(-Notes)
+
+# Remove rows with any NA values
+df <- 
+  na.omit(df)
+df %>%
+  glimpse()
+```
+
+```{r}
+df <- df %>%
+  filter(`Major:` != "Agriculture")
+
+df %>%
+  distinct(`Major:`) %>%
+  arrange(`Major:`) %>%
+  pull(`Major:`)
+```
+
+```{r}
+# Rename for convenience (optional but helpful)
+df_clean <- df %>%
+  rename(
+    Major = `Major:`,
+    Memory_Sober = `Memory Game (seconds) - Sober`,
+    Memory_Drunk = `Memory Game (seconds) - Drunk`,
+    Balance_Sober = `Balance Test Eyes Closed (seconds) - Sober`,
+    Balance_Drunk = `Balance Test Eyes Closed (seconds) - Drunk`,
+    BAC_Sober = `BAC - Sober`,
+    BAC_Drunk = `BAC - Drunk`
+  )
+
+df_long <- df_clean %>%
+  pivot_longer(
+    cols = c(Memory_Sober, Memory_Drunk,
+             Balance_Sober, Balance_Drunk,
+             BAC_Sober, BAC_Drunk),
+    names_to = c("Metric", "Condition"),
+    names_sep = "_",
+    values_to = "Value"
+  )
+
+df_long
+```
+
+```{r}
+# Average Memory times sober v drunk across major
+df_long %>%
+  filter(Metric == "Memory") %>%
+  group_by(Major, Condition) %>%
+  summarise(Average_Time = mean(Value, na.rm = TRUE), .groups = "drop") %>%
+  ggplot(aes(x = reorder(Major, Average_Time), y = Average_Time, fill = Condition)) +
+  geom_col(position = "dodge") +
+  coord_flip() +
+  labs(title = "Average Memory Game Times by Major",
+       x = "Major", y = "Average Time (seconds)")
+```
+
+```{r}
+# Median memory times across majors, sober vs drunk
+df_long %>%
+  filter(Metric == "Memory") %>%
+  group_by(Major, Condition) %>%
+  summarise(Median_Time = median(Value, na.rm = TRUE), .groups = "drop") %>%
+  ggplot(aes(x = reorder(Major, Median_Time), y = Median_Time, fill = Condition)) +
+  geom_col(position = "dodge") +
+  coord_flip() +
+  labs(title = "Median Memory Game Times by Major",
+       x = "Major", y = "Median Time (seconds)")
+```
+
+```{r}
+# Box and whisker plot for memory times (sober vs. drunk)
+df_long %>%
+  filter(Metric == "Memory") %>%
+  ggplot(aes(x = Major, y = Value, fill = Condition)) +
+  geom_boxplot() +
+  coord_flip() +  # Flip coordinates for better readability
+  labs(title = "Box and Whisker Plot of Memory Game Times by Major",
+       x = "Major", y = "Memory Time (seconds)") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+# Pivot for balance coordination times (before and after drinking)
+balance_long <- df_clean %>%
+  pivot_longer(
+    cols = c(Balance_Sober, Balance_Drunk),
+    names_to = c("Metric", "Condition"),
+    names_sep = "_",
+    values_to = "Balance_Time"
+  ) %>%
+  filter(Metric == "Balance") 
+```
+
+```{r}
+# Average Coordination Times across majors, sober vs drunk
+balance_long %>%
+  group_by(Major, Condition) %>%
+  summarise(Average_Time = mean(Balance_Time, na.rm = TRUE), .groups = "drop") %>%
+  ggplot(aes(x = reorder(Major, Average_Time), y = Average_Time, fill = Condition)) +
+  geom_col(position = "dodge") +
+  coord_flip() +
+  labs(title = "Average Coordination Times by Major",
+       x = "Major", y = "Average Time (seconds)")
+```
+
+```{r}
+# Median Coordination Times across majors, sober vs drunk
+balance_long %>%
+  group_by(Major, Condition) %>%
+  summarise(Median_Time = median(Balance_Time, na.rm = TRUE), .groups = "drop") %>%
+  ggplot(aes(x = reorder(Major, Median_Time), y = Median_Time, fill = Condition)) +
+  geom_col(position = "dodge") +
+  coord_flip() +
+  labs(title = "Median Coordination Times by Major",
+       x = "Major", y = "Median Time (seconds)")
+```
+
+```{r}
+# Pivot the data to long format for Memory and Balance differences
+df_diff_long <- df %>%
+  pivot_longer(
+    cols = c(`Memory difference`, `Balance difference`),
+    names_to = "Metric",
+    values_to = "Difference"
+  ) 
+df_diff_long
+```
+
+```{r}
+df_diff_long %>%
+  ggplot(aes(x = reorder(`Major:`, Difference), y = Difference, fill = Metric)) +
+  geom_boxplot() +
+  coord_flip() +
+  labs(title = "Difference in Memory and Balance Times by Major",
+       x = "Major", y = "Difference in Time (seconds)")
+```
+
+```         
+```
+
+### **q3** Key Analyses
 
 Present the key analyses that support your questions / hypotheses. This could include summary statistics (e.g., a proportion of Islanders), grouped summary statistics (e.g., a proportion for group A, and for group B), or visualizations (e.g., a histogram). This section should be short, and every analysis should directly relate to q4.
 
-### __q4__ Answers
+### **q4** Answers
 
 Connect your Key Analyses to your questions / hypotheses. What did you conclude from your study?

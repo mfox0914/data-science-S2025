@@ -24,7 +24,7 @@ Unlike exercises, **challenges will be graded**. The following rubrics define ho
 <!-- ------------------------- -->
 
 | Category | Needs Improvement | Satisfactory |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | Effort | Some task **q**'s left unattempted | All task **q**'s attempted |
 | Observed | Did not document observations, or observations incorrect | Documented correct observations based on analysis |
 | Supported | Some observations not clearly supported by analysis | All observations clearly supported by analysis (table, graph, etc.) |
@@ -360,47 +360,31 @@ Find the top 10 counties in terms of `cases_per100k`, and the top 10 in terms of
 ```{r q7-task}
 ## TASK: Find the top 10 max cases_per100k counties; report populations as well
 df_normalized %>%
-  select(county, `population`, cases_per100k) %>%
+  group_by(county, state) %>%
+  slice_max(order_by = cases_per100k, n = 1, with_ties = FALSE) %>% 
+  ungroup() %>% 
   arrange(desc(cases_per100k)) %>%
-  slice_head(n = 10) %>%
-  print(n = 10)
+  slice_head(n = 10)
 
-## TASK: Find the top 10 deaths_per100k counties; report populations as well
 df_normalized %>%
-  select(county, `population`, deaths_per100k) %>%
+  group_by(county, state) %>%
+  slice_max(order_by = deaths_per100k, n = 1, with_ties = FALSE) %>% 
+  ungroup() %>% 
   arrange(desc(deaths_per100k)) %>%
-  slice_head(n = 10) %>%
-  print(n = 10)
-
-df_normalized %>%
-  filter(county == "Loving") %>%
-  select(county, `population`, cases_per100k, deaths_per100k, date) %>%
-  arrange(desc(cases_per100k), desc(deaths_per100k)) %>%
-  slice_head(n = 10) %>%
-  print(n = 10)
-
-df_normalized %>%
-  filter(county == "McMullen") %>%
-  select(county, `population`, cases_per100k, deaths_per100k, date) %>%
-  arrange(desc(cases_per100k), desc(deaths_per100k)) %>%
-  slice_head(n = 10) %>%
-  print(n = 10)
+  slice_head(n = 10)
 ```
 
 **Observations**:
 
--   The top 10 lists for both cases_per100k and deaths_per100k contain only one unique county (Loving and McMullen, respectively), repeated multiple times.
+-   The top 10 counties for both cases_per100k and deaths_per100k show significantly higher values than the national averages calculated in q6.
 
-    -   Loving County (TX) has a very small population (102 people) but extremely high cases per 100k (over 190,000).
-    -   McMullen County (TX) has a population of 662 but a high death rate per 100k (1,359 deaths per 100k).
+-   All counties listed have populations under 20,000, with many under 2,000.
 
 -   When did these "largest values" occur?
 
-    -   Loving County, TX: Highest cases per 100k (186,000+) from May 4–13, 2022, with deaths per 100k at 980.39.
+    -   The counties and independent cities with the highest deaths per 100,000 people experienced their peaks mostly between February and May 2022. Those with the highest cases_per100k peaked during May 2022.
 
     <!-- -->
-
-    -   McMullen County, TX: Highest deaths per 100k (1,359.52) and cases per 100k (25,528.7) from April 26–May 5, 2022.
 
 ## Self-directed EDA
 
