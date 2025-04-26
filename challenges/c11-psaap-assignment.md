@@ -608,8 +608,9 @@ bind_rows(
     less uncertainty in its predictions.
 - How many predictors does the `fit_simple` model need in order to make
   a prediction? What about your model `fit_q4`?
-  - fit_simple uses only one predictor: x. fit_q4 uses six predictors:
-    L, W, U_0, N_p, k_f, and T_f.
+  - fit_simple uses only one predictor: x. fit_q4 uses seventeen
+    predictors: x, L, W, U_0, N_p, k_f, T_f, rho_f, mu_f, lam_f, C_fp,
+    rho_p, d_p, C_pv, h, I_0, and eps_p.
 
 Based on these results, you might be tempted to always throw every
 reasonable variable into the model. For some cases, that might be the
