@@ -130,8 +130,9 @@ you still need to count, because your numbers *will* be different!
   - 97%
 - Are there any sources of *real* uncertainty in the percent occupied
   you calculated?
-  - No because it was exact counting and the Islands updates in real
-    time.
+  - Yes, because The Islands is a real-time simulation where islanders
+    are born, die, and move. As a result, the number of occupied and
+    unoccupied homes can change over time, introducing real uncertainty.
 - Are there any sources of *erroneous* uncertainty in the percent
   occupied you calculated?
   - Yes, I could have miscounted,.
@@ -678,3 +679,84 @@ study is observational or experimental.
     results, and what is actually *feasible* for your research team.
     - 25 students for each of the chosen majors in the chosen
       University.
+
+``` r
+# Load necessary libraries
+library(tidyverse)
+
+# Extract last names from full names
+df_sample_seq <- df_sample_seq %>%
+  mutate(last_name = word(name, -1))  # Extract last word (last name)
+
+df_sample_random <- df_sample_random %>%
+  mutate(last_name = word(name, -1))  # Extract last word (last name)
+
+# Count occurrences of last names
+last_name_counts_seq <- df_sample_seq %>%
+  count(last_name) %>%
+  mutate(sample_type = "Sequential")
+
+last_name_counts_random <- df_sample_random %>%
+  count(last_name) %>%
+  mutate(sample_type = "Random")
+
+# Combine datasets
+last_name_counts <- bind_rows(last_name_counts_seq, last_name_counts_random)
+
+# Normalize counts to get proportions
+last_name_counts <- last_name_counts %>%
+  group_by(sample_type) %>%
+  mutate(p = n / sum(n))
+
+# Find the top 10 most common last names across both samples
+top_10_names <- last_name_counts %>%
+  group_by(last_name) %>%
+  summarise(total_n = sum(n)) %>%
+  arrange(desc(total_n)) %>%
+  top_n(10, total_n) %>%
+  pull(last_name)
+
+# Filter dataset for only the top 10 names
+last_name_counts_top10 <- last_name_counts %>%
+  filter(last_name %in% top_10_names)
+
+# 1. Bar Chart: Comparing Last Name Prevalence (Top 10 Only)
+ggplot(last_name_counts_top10, aes(x = reorder(last_name, -p), y = p, fill = sample_type)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_wrap(~sample_type) +
+  labs(title = "Top 10 Last Names: Sequential vs. Random Sampling",
+       x = "Last Name", y = "Proportion of Sample",
+       fill = "Sampling Method") +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1))
+```
+
+![](c08-islands-pt1-assignment_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+
+``` r
+# 2. Stacked Bar Chart for Last Name Distributions (Top 10 Only)
+ggplot(last_name_counts_top10, aes(x = last_name, y = n, fill = sample_type)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Top 10 Last Names: Sequential vs. Random Sampling",
+       x = "Last Name", y = "Count",
+       fill = "Sampling Method") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+![](c08-islands-pt1-assignment_files/figure-gfm/unnamed-chunk-10-2.png)<!-- -->
+
+``` r
+# 3. Boxplot Comparing Age Distributions
+ggplot(bind_rows(df_sample_seq %>% mutate(sample_type = "Sequential"),
+                 df_sample_random %>% mutate(sample_type = "Random")),
+       aes(x = sample_type, y = age, fill = sample_type)) +
+  geom_boxplot() +
+  labs(title = "Age Distribution: Sequential vs. Random Sampling",
+       x = "Sampling Method", y = "Age",
+       fill = "Sampling Method") +
+  theme_minimal()
+```
+
+    ## Warning: Removed 2 rows containing non-finite outside the scale range
+    ## (`stat_boxplot()`).
+
+![](c08-islands-pt1-assignment_files/figure-gfm/unnamed-chunk-10-3.png)<!-- -->

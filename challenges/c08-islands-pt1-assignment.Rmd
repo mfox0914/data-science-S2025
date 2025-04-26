@@ -28,7 +28,7 @@ Unlike exercises, **challenges will be graded**. The following rubrics define ho
 <!-- ------------------------- -->
 
 | Category | Needs Improvement | Satisfactory |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | Effort | Some task **q**'s left unattempted | All task **q**'s attempted |
 | Observed | Did not document observations, or observations incorrect | Documented correct observations based on analysis |
 | Supported | Some observations not clearly supported by analysis | All observations clearly supported by analysis (table, graph, etc.) |
@@ -76,7 +76,7 @@ NB. When Zach counted the homes (on 2025-01-08), he found 20 unoccupied out of 5
 -   What percent of homes are *occupied*?
     -   97%
 -   Are there any sources of *real* uncertainty in the percent occupied you calculated?
-    -   No because it was exact counting and the Islands updates in real time.
+    -   Yes, because The Islands is a real-time simulation where islanders are born, die, and move. As a result, the number of occupied and unoccupied homes can change over time, introducing real uncertainty.
 -   Are there any sources of *erroneous* uncertainty in the percent occupied you calculated?
     -   Yes, I could have miscounted,.
 
