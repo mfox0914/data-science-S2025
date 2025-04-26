@@ -333,7 +333,6 @@ df_q4 <- df_q3 %>%
     income_hi = income_estimate + qnorm(0.995) * income_SE,
     income_CV = income_SE / income_estimate
   )
-
 df_q4 %>%
   glimpse()
 ```
@@ -501,10 +500,11 @@ df_data %>%
     confidently determine ones income is definitely higher than another.
 - Can you confidently distinguish between household incomes in Suffolk
   county? Why or why not?
-  - Suffolk county has the smallest confidence intervals, making it
-    easier to distinguish between different household incomes. However,
-    the confidence intervals are not negligible, so you cannot
-    confidently give a single number for median household income.
+  - Suffolk County has the smallest confidence intervals, which helps
+    reduce uncertainty. However, because the differences between
+    household incomes are also small, the estimates are not clearly
+    distinguishable. Therefore, you cannot confidently give a single
+    number for the median household income.
 - Which counties have the widest confidence intervals?
   - Nantucket, Dukes, and Hampshire have the widest intervals.
 
@@ -542,9 +542,11 @@ df_data %>%
   - There is a clear negative relationship between standard error and
     population size as population increases, the standard error tends to
     decrease.
-  - Larger populations allow for larger sample sizes in the survey,
-    decreasing sampling variability. This allows for more precise
-    estimates of the median income.
+  - Larger populations tend to have larger sample sizes in the survey,
+    which reduces sampling variability and leads to more precise
+    estimates of the median income. This assumes that the Census Bureau
+    collects larger samples from larger populations, rather than using a
+    fixed sample size across all counties.
 - What does this *overall* trend tell you about the relative ease of
   studying small vs large counties?
   - Large counties provide more precise estimates with narrower
