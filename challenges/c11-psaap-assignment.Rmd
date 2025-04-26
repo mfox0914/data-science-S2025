@@ -192,9 +192,7 @@ Interpret the following model by answering the questions below.
 ## TODO: Inspect the regression coefficients for the following model
 fit_q4 <- 
   df_train %>% 
-  # lm(formula = T_norm ~ . - idx - avg_q - avg_T - rms_T)
-  lm(formula = T_norm ~ L + W + U_0 + N_p + k_f + T_f)
-  # lm(formula = T_norm ~ L - W - U_0 - N_p - k_f - T_f)
+  lm(formula = T_norm ~ . - idx - avg_q - avg_T - rms_T)
 
 fit_q4 %>%
   summary()
@@ -210,13 +208,13 @@ sd(df_psaap$T_f)
 -   Which columns are excluded in the model formula above? What categories do these belong to? Why are these important quantities to leave out of the model?
     -   The excluded columns are idx, avg_q, avg_T, and rms_T. These are important to leave out because avg_q, avg_T, and rms_T are output variables. They’re calculated after the physical processes occur, so they aren’t available when predicting new outcomes. idx is just a simulation ID with no physical meaning. It could lead to overfitting by capturing simulation-specific quirks.
 -   Which inputs are *statistically significant*, according to the model?
-    -   W, T_f, and intercept.
+    -   W, x, L, U_0, C_fp, d_p, and I\_\_0
 -   What is the regression coefficient for `x`? What about the regression coefficient for `T_f`?
-    -   x does not appear to have a regression coefficient. T_f's regression coefficient is -0.004783458.
+    -   x's regression coefficient is 1.018. T_f's regression coefficient is -0.0003791.
 -   What is the standard deviation of `x` in `df_psaap`? What about the standard deviation of `T_f`?
     -   The standard deviation of x is 0.2805121, and T_f is 38.94204.
 -   How do these standard deviations relate to the regression coefficients for `x` and `T_f`?
-    -   The coefficient tells us how much T_norm changes per unit change in x, and the standard deviation tells us how much x naturally varies. The product of these two gives us a sense of practical influence. For example, even though T_f has a small coefficient, its large spread can lead to a noticeable effect. Conversely, if x had a moderate coefficient and large spread, its overall contribution could be even bigger. So, both scale and variability matter when assessing a variable's true effect on the model.
+    -   The regression coefficient shows how much T_norm changes per one-unit change in the input variable, but the standard deviation shows how much that input typically varies. For x, a coefficient of 1.018 combined with a standard deviation of 0.28 means changes in x can cause noticeable shifts in T_norm. For T_f, even though it has a much larger standard deviation, its tiny coefficient (-0.0003791) means its overall effect on T_norm is minimal. Thus, both the size of the coefficient and the natural variability of a variable are important for understanding its practical impact on the model.
 -   Note that literally *all* of the inputs above have *some* effect on the output `T_norm`; so they are all "significant" in that sense. What does this tell us about the limitations of statistical significance for interpreting regression coefficients?
     -   A variable with a strong physical effect but high variance or correlation with other variables might not appear significant. Statistical significance reflects certainty in a variable’s effect, not the size of that effect.
 
@@ -402,7 +400,7 @@ mean(
 -   What fraction of validation cases lie within the intervals you predict? (NB. Make sure to calculate your intervals *based on the validation data*; don't just use one single interval!) How does this compare with `pr_level`?
     -   About 93% of the validation cases fall within the predicted 80% prediction intervals. This is slightly higher than the target pr_level = 0.8, which indicates the model might be slightly conservative.
 -   What interval for `T_norm` would you recommend the design team to plan around?
-    -   They should design around x = 1, L = 0.2, W = 0.04, U_0 = 1.0, as this model covers more than the required amount (80%) of values to account for.
+    -   The design team should plan around a T_norm interval of approximately [1.457, 2.296]. This prediction interval is based on their proposed design (x = 1, L = 0.2, W = 0.04, U₀ = 1.0) and captures about 80% of possible T_norm outcomes, satisfying their reliability requirement.
 -   Are there any other recommendations you would provide?
     -   Yes, I would recommend investigating whether additional controllable inputs could further narrow uncertainty. Running sensitivity analysis on the uncontrolled variables to understand which ones contribute most to the variability in T_norm.
 

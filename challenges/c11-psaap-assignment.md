@@ -360,9 +360,7 @@ fitting. So `T_norm ~ . - x` would fit on all columns *except* `x`.
 ## TODO: Inspect the regression coefficients for the following model
 fit_q4 <- 
   df_train %>% 
-  # lm(formula = T_norm ~ . - idx - avg_q - avg_T - rms_T)
-  lm(formula = T_norm ~ L + W + U_0 + N_p + k_f + T_f)
-  # lm(formula = T_norm ~ L - W - U_0 - N_p - k_f - T_f)
+  lm(formula = T_norm ~ . - idx - avg_q - avg_T - rms_T)
 
 fit_q4 %>%
   summary()
@@ -370,27 +368,38 @@ fit_q4 %>%
 
     ## 
     ## Call:
-    ## lm(formula = T_norm ~ L + W + U_0 + N_p + k_f + T_f, data = .)
+    ## lm(formula = T_norm ~ . - idx - avg_q - avg_T - rms_T, data = .)
     ## 
     ## Residuals:
     ##      Min       1Q   Median       3Q      Max 
-    ## -0.80856 -0.23929  0.01347  0.23095  1.01391 
+    ## -0.31956 -0.06139  0.00496  0.05931  0.35718 
     ## 
     ## Coefficients:
     ##               Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)  4.882e+00  8.337e-01   5.856 1.26e-07 ***
-    ## L            2.570e+00  2.001e+00   1.284   0.2032    
-    ## W           -4.442e+01  8.028e+00  -5.533 4.67e-07 ***
-    ## U_0         -1.682e-01  1.849e-01  -0.910   0.3660    
-    ## N_p         -4.017e-07  2.029e-07  -1.979   0.0515 .  
-    ## k_f         -2.280e+00  3.329e+00  -0.685   0.4956    
-    ## T_f         -4.783e-03  1.151e-03  -4.155 8.74e-05 ***
+    ## (Intercept) -3.033e-03  1.656e+00  -0.002 0.998544    
+    ## x            1.018e+00  5.607e-02  18.160  < 2e-16 ***
+    ## L            3.961e+00  9.362e-01   4.231 7.81e-05 ***
+    ## W           -3.715e+01  6.394e+00  -5.810 2.33e-07 ***
+    ## U_0         -3.257e-01  1.136e-01  -2.868 0.005633 ** 
+    ## N_p          2.723e-07  1.382e-07   1.970 0.053334 .  
+    ## k_f          2.547e+00  2.128e+00   1.197 0.235999    
+    ## T_f         -3.791e-04  1.173e-03  -0.323 0.747569    
+    ## rho_f       -5.616e-01  3.210e-01  -1.750 0.085097 .  
+    ## mu_f        -8.254e+03  1.468e+04  -0.562 0.575975    
+    ## lam_f       -4.679e+00  1.113e+01  -0.420 0.675730    
+    ## C_fp        -6.592e-04  3.204e-04  -2.057 0.043887 *  
+    ## rho_p        5.640e-06  1.837e-05   0.307 0.759865    
+    ## d_p          1.236e+05  4.493e+04   2.752 0.007757 ** 
+    ## C_pv        -7.243e-04  3.725e-04  -1.945 0.056361 .  
+    ## h            1.407e-06  4.871e-05   0.029 0.977054    
+    ## I_0          1.600e-07  4.286e-08   3.733 0.000413 ***
+    ## eps_p        1.107e+00  1.101e+00   1.006 0.318472    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## Residual standard error: 0.3723 on 73 degrees of freedom
-    ## Multiple R-squared:  0.4562, Adjusted R-squared:  0.4115 
-    ## F-statistic: 10.21 on 6 and 73 DF,  p-value: 3.528e-08
+    ## Residual standard error: 0.1402 on 62 degrees of freedom
+    ## Multiple R-squared:  0.9345, Adjusted R-squared:  0.9165 
+    ## F-statistic: 52.04 on 17 and 62 DF,  p-value: < 2.2e-16
 
 ``` r
 sd(df_psaap$x)
@@ -416,24 +425,25 @@ sd(df_psaap$T_f)
     simulation ID with no physical meaning. It could lead to overfitting
     by capturing simulation-specific quirks.
 - Which inputs are *statistically significant*, according to the model?
-  - W, T_f, and intercept.
+  - W, x, L, U_0, C_fp, d_p, and I\_\_0
 - What is the regression coefficient for `x`? What about the regression
   coefficient for `T_f`?
-  - x does not appear to have a regression coefficient. T_f’s regression
-    coefficient is -0.004783458.
+  - x’s regression coefficient is 1.018. T_f’s regression coefficient is
+    -0.0003791.
 - What is the standard deviation of `x` in `df_psaap`? What about the
   standard deviation of `T_f`?
   - The standard deviation of x is 0.2805121, and T_f is 38.94204.
 - How do these standard deviations relate to the regression coefficients
   for `x` and `T_f`?
-  - The coefficient tells us how much T_norm changes per unit change in
-    x, and the standard deviation tells us how much x naturally varies.
-    The product of these two gives us a sense of practical influence.
-    For example, even though T_f has a small coefficient, its large
-    spread can lead to a noticeable effect. Conversely, if x had a
-    moderate coefficient and large spread, its overall contribution
-    could be even bigger. So, both scale and variability matter when
-    assessing a variable’s true effect on the model.
+  - The regression coefficient shows how much T_norm changes per
+    one-unit change in the input variable, but the standard deviation
+    shows how much that input typically varies. For x, a coefficient of
+    1.018 combined with a standard deviation of 0.28 means changes in x
+    can cause noticeable shifts in T_norm. For T_f, even though it has a
+    much larger standard deviation, its tiny coefficient (-0.0003791)
+    means its overall effect on T_norm is minimal. Thus, both the size
+    of the coefficient and the natural variability of a variable are
+    important for understanding its practical impact on the model.
 - Note that literally *all* of the inputs above have *some* effect on
   the output `T_norm`; so they are all “significant” in that sense. What
   does this tell us about the limitations of statistical significance
@@ -721,9 +731,11 @@ mean(
     conservative.
 - What interval for `T_norm` would you recommend the design team to plan
   around?
-  - They should design around x = 1, L = 0.2, W = 0.04, U_0 = 1.0, as
-    this model covers more than the required amount (80%) of values to
-    account for.
+  - The design team should plan around a T_norm interval of
+    approximately \[1.457, 2.296\]. This prediction interval is based on
+    their proposed design (x = 1, L = 0.2, W = 0.04, U₀ = 1.0) and
+    captures about 80% of possible T_norm outcomes, satisfying their
+    reliability requirement.
 - Are there any other recommendations you would provide?
   - Yes, I would recommend investigating whether additional controllable
     inputs could further narrow uncertainty. Running sensitivity
