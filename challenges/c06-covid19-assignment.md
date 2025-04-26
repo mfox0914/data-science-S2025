@@ -165,7 +165,9 @@ To check your results, this is Table `B01003`.
 
 ``` r
 ## TASK: Load the census bureau data with the following tibble name.
-df_pop <- read_csv("C:/Users/mfox/OneDrive - Olin College of Engineering/Data Science/data-science-S2025/challenges/data/ACSDT5Y2018.B01003-Data.csv", skip = 1) %>% 
+df_pop <- read_csv(
+  "C:/Users/mfox/OneDrive - Olin College of Engineering/Data Science/data-science-S2025/challenges/data/ACSDT5Y2018.B01003-Data.csv", 
+  skip = 1) %>% 
   rename(id = Geography) %>%
   select(-last_col())
 ```
@@ -566,115 +568,69 @@ you found in q6. Note any observations.
 ``` r
 ## TASK: Find the top 10 max cases_per100k counties; report populations as well
 df_normalized %>%
-  select(county, `population`, cases_per100k) %>%
+  group_by(county, state) %>%
+  slice_max(order_by = cases_per100k, n = 1, with_ties = FALSE) %>% 
+  ungroup() %>% 
   arrange(desc(cases_per100k)) %>%
-  slice_head(n = 10) %>%
-  print(n = 10)
+  slice_head(n = 10)
 ```
 
-    ## # A tibble: 10 × 3
-    ##    county population cases_per100k
-    ##    <chr>       <dbl>         <dbl>
-    ##  1 Loving        102       192157.
-    ##  2 Loving        102       192157.
-    ##  3 Loving        102       191176.
-    ##  4 Loving        102       191176.
-    ##  5 Loving        102       191176.
-    ##  6 Loving        102       190196.
-    ##  7 Loving        102       188235.
-    ##  8 Loving        102       187255.
-    ##  9 Loving        102       187255.
-    ## 10 Loving        102       186275.
+    ## # A tibble: 10 × 9
+    ##    date       county           state fips  cases deaths population cases_per100k
+    ##    <date>     <chr>            <chr> <chr> <dbl>  <dbl>      <dbl>         <dbl>
+    ##  1 2022-05-12 Loving           Texas 48301   196      1        102       192157.
+    ##  2 2022-05-11 Chattahoochee    Geor… 13053  7486     22      10767        69527.
+    ##  3 2022-05-11 Nome Census Area Alas… 02180  6245      5       9925        62922.
+    ##  4 2022-05-11 Northwest Arcti… Alas… 02188  4837     13       7734        62542.
+    ##  5 2022-05-13 Crowley          Colo… 08025  3347     30       5630        59449.
+    ##  6 2022-05-11 Bethel Census A… Alas… 02050 10362     41      18040        57439.
+    ##  7 2022-03-30 Dewey            Sout… 46041  3139     42       5779        54317.
+    ##  8 2022-05-12 Dimmit           Texas 48127  5760     51      10663        54019.
+    ##  9 2022-05-12 Jim Hogg         Texas 48247  2648     22       5282        50133.
+    ## 10 2022-05-11 Kusilvak Census… Alas… 02158  4084     14       8198        49817.
+    ## # ℹ 1 more variable: deaths_per100k <dbl>
 
 ``` r
-## TASK: Find the top 10 deaths_per100k counties; report populations as well
 df_normalized %>%
-  select(county, `population`, deaths_per100k) %>%
+  group_by(county, state) %>%
+  slice_max(order_by = deaths_per100k, n = 1, with_ties = FALSE) %>% 
+  ungroup() %>% 
   arrange(desc(deaths_per100k)) %>%
-  slice_head(n = 10) %>%
-  print(n = 10)
+  slice_head(n = 10)
 ```
 
-    ## # A tibble: 10 × 3
-    ##    county   population deaths_per100k
-    ##    <chr>         <dbl>          <dbl>
-    ##  1 McMullen        662          1360.
-    ##  2 McMullen        662          1360.
-    ##  3 McMullen        662          1360.
-    ##  4 McMullen        662          1360.
-    ##  5 McMullen        662          1360.
-    ##  6 McMullen        662          1360.
-    ##  7 McMullen        662          1360.
-    ##  8 McMullen        662          1360.
-    ##  9 McMullen        662          1360.
-    ## 10 McMullen        662          1360.
-
-``` r
-df_normalized %>%
-  filter(county == "Loving") %>%
-  select(county, `population`, cases_per100k, deaths_per100k, date) %>%
-  arrange(desc(cases_per100k), desc(deaths_per100k)) %>%
-  slice_head(n = 10) %>%
-  print(n = 10)
-```
-
-    ## # A tibble: 10 × 5
-    ##    county population cases_per100k deaths_per100k date      
-    ##    <chr>       <dbl>         <dbl>          <dbl> <date>    
-    ##  1 Loving        102       192157.           980. 2022-05-12
-    ##  2 Loving        102       192157.           980. 2022-05-13
-    ##  3 Loving        102       191176.           980. 2022-05-09
-    ##  4 Loving        102       191176.           980. 2022-05-10
-    ##  5 Loving        102       191176.           980. 2022-05-11
-    ##  6 Loving        102       190196.           980. 2022-05-08
-    ##  7 Loving        102       188235.           980. 2022-05-07
-    ##  8 Loving        102       187255.           980. 2022-05-05
-    ##  9 Loving        102       187255.           980. 2022-05-06
-    ## 10 Loving        102       186275.           980. 2022-05-04
-
-``` r
-df_normalized %>%
-  filter(county == "McMullen") %>%
-  select(county, `population`, cases_per100k, deaths_per100k, date) %>%
-  arrange(desc(cases_per100k), desc(deaths_per100k)) %>%
-  slice_head(n = 10) %>%
-  print(n = 10)
-```
-
-    ## # A tibble: 10 × 5
-    ##    county   population cases_per100k deaths_per100k date      
-    ##    <chr>         <dbl>         <dbl>          <dbl> <date>    
-    ##  1 McMullen        662        25529.          1360. 2022-04-26
-    ##  2 McMullen        662        25529.          1360. 2022-04-27
-    ##  3 McMullen        662        25529.          1360. 2022-04-28
-    ##  4 McMullen        662        25529.          1360. 2022-04-29
-    ##  5 McMullen        662        25529.          1360. 2022-04-30
-    ##  6 McMullen        662        25529.          1360. 2022-05-01
-    ##  7 McMullen        662        25529.          1360. 2022-05-02
-    ##  8 McMullen        662        25529.          1360. 2022-05-03
-    ##  9 McMullen        662        25529.          1360. 2022-05-04
-    ## 10 McMullen        662        25529.          1360. 2022-05-05
+    ## # A tibble: 10 × 9
+    ##    date       county           state fips  cases deaths population cases_per100k
+    ##    <date>     <chr>            <chr> <chr> <dbl>  <dbl>      <dbl>         <dbl>
+    ##  1 2022-02-19 McMullen         Texas 48311   166      9        662        25076.
+    ##  2 2022-04-27 Galax city       Virg… 51640  2551     78       6638        38430.
+    ##  3 2022-03-10 Motley           Texas 48345   271     13       1156        23443.
+    ##  4 2022-04-20 Hancock          Geor… 13141  1577     90       8535        18477.
+    ##  5 2022-04-19 Emporia city     Virg… 51595  1169     55       5381        21725.
+    ##  6 2022-04-27 Towns            Geor… 13281  2396    116      11417        20986.
+    ##  7 2022-02-14 Jerauld          Sout… 46073   404     20       2029        19911.
+    ##  8 2022-03-04 Loving           Texas 48301   165      1        102       161765.
+    ##  9 2022-02-03 Robertson        Kent… 21201   570     21       2143        26598.
+    ## 10 2022-05-05 Martinsville ci… Virg… 51690  3452    124      13101        26349.
+    ## # ℹ 1 more variable: deaths_per100k <dbl>
 
 **Observations**:
 
-- The top 10 lists for both cases_per100k and deaths_per100k contain
-  only one unique county (Loving and McMullen, respectively), repeated
-  multiple times.
+- The top 10 counties for both cases_per100k and deaths_per100k show
+  significantly higher values than the national averages calculated in
+  q6.
 
-  - Loving County (TX) has a very small population (102 people) but
-    extremely high cases per 100k (over 190,000).
-  - McMullen County (TX) has a population of 662 but a high death rate
-    per 100k (1,359 deaths per 100k).
+- All counties listed have populations under 20,000, with many under
+  2,000.
 
 - When did these “largest values” occur?
 
-  - Loving County, TX: Highest cases per 100k (186,000+) from May 4–13,
-    2022, with deaths per 100k at 980.39.
+  - The counties and independent cities with the highest deaths per
+    100,000 people experienced their peaks mostly between February and
+    May 2022. Those with the highest cases_per100k peaked during May
+    2022.
 
   <!-- -->
-
-  - McMullen County, TX: Highest deaths per 100k (1,359.52) and cases
-    per 100k (25,528.7) from April 26–May 5, 2022.
 
 ## Self-directed EDA
 
@@ -705,10 +661,12 @@ df_normalized <- df_normalized %>%
   ))
 
 # Box plot to compare case rates by population group
-ggplot(df_normalized, aes(x = population_group, y = cases_per100k, fill = population_group)) +
-  geom_boxplot() +  
+df_normalized %>%
+  ggplot(aes(x = population_group, y = cases_per100k, fill = population_group)) +
+  geom_boxplot() +
   labs(
-    title = "COVID-19 Case Rates by County Population Size")
+    title = "COVID-19 Case Rates by County Population Size"
+  )
 ```
 
     ## Warning: Removed 28822 rows containing non-finite outside the scale range
@@ -718,9 +676,17 @@ ggplot(df_normalized, aes(x = population_group, y = cases_per100k, fill = popula
 
 **Observations:**
 
-- Tiny and small counties have many outliers. This happens because even
-  a few cases can make the numbers look very high, leading to
-  cases_per100k changing vastly.
+- For large counties (100K+), outliers are present but generally stay
+  below 50,000 cases per 100k.
+
+- Medium (10K–100K) and small (1K–10K) counties have outliers reaching
+  up to around 70,000 cases per 100k.
+
+- Tiny counties (\<1K) show the widest range of outliers, with some
+  extreme cases exceeding 150,000–190,000 cases per 100k.
+
+- The trend in outliers is most likely because even a few cases can make
+  the numbers look very high, leading to cases_per100k changing vastly.
 
 - There does not seem to be any pattern between spread and population,
   the only thing that seems to change is the number of outliers.
