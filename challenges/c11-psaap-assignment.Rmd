@@ -328,7 +328,7 @@ bind_rows(
 -   Which model tends to be *more confident* in its predictions? Put differently, which model has *narrower prediction intervals*?
     -   The fit_q4 model appears more confident. We can tell because the vertical lines/prediction intervals are narrower on average compared to those in the x-only model. Narrower intervals mean the model has less uncertainty in its predictions.
 -   How many predictors does the `fit_simple` model need in order to make a prediction? What about your model `fit_q4`?
-    -   fit_simple uses only one predictor: x. fit_q4 uses six predictors: L, W, U_0, N_p, k_f, and T_f.
+    -   fit_simple uses only one predictor: x. fit_q4 uses seventeen predictors: x, L, W, U_0, N_p, k_f, T_f, rho_f, mu_f, lam_f, C_fp, rho_p, d_p, C_pv, h, I_0, and eps_p.
 
 Based on these results, you might be tempted to always throw every reasonable variable into the model. For some cases, that might be the best choice. However, some variables might be *outside our control*; for example, variables involving human behavior cannot be fully under our control. Other variables may be *too difficult to measure*; for example, it is *in theory* possible to predict the strength of a component by having detailed knowledge of its microstructure. However, it is *patently infeasible* to do a detailed study of *every single component* that gets used in an airplane.
 
