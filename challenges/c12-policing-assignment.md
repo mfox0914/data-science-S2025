@@ -302,14 +302,26 @@ unique(df_data$raw_Race)
 **Observations**:
 
 - What are the unique values for `subject_race`?
+
   - white, hispanic, black, asian/pacific islander, other, unknown, NA
+
 - What are the unique values for `raw_Race`?
+
   - “White”, “Hispanic”, “Black”, “Asian or Pacific Islander”, “Middle
     Eastern or East Indian (South Asian)”, “American Indian or Alaskan
     Native”, NA, “None - for no operator present citations only”, “A”
+
 - What is the overlap between the two sets?
-  - White, Hispanic, Black, Asian/Pacific Islander, None/Unknown, NA
+
+  - Both contain White, Hispanic, Black, Asian/Pacific Islander
+    categories (though formatting differs slightly).
+
+  <!-- -->
+
+  - Both include NA values.
+
 - What is the difference between the two sets?
+
   - subject_race appears to group or ignore less common race identifiers
     and simplify them into broader categories like other or unknown.
     raw_Race also seems to have an error value “A”.
